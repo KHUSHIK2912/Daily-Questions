@@ -1,0 +1,60 @@
+class Solution {
+public:
+    static bool sortcol( const vector<string>& v1, const vector<string>& v2 ) 
+    {
+        return (stoi(v1[0]) < stoi(v2[0]));
+    }
+    vector<vector<string>> displayTable(vector<vector<string>>& order) 
+    {
+        vector<string> menu;
+        vector<vector<string>> idx;
+        
+        vector<string>::iterator it;
+        int i,j;
+        for(i=0;i<order.size();i++)
+        {
+            if(find(menu.begin(),menu.end(),order[i][2])==menu.end())
+                menu.push_back(order[i][2]);
+        }
+        sort(menu.begin(),menu.end());
+        int n=menu.size();
+        menu.insert(menu.begin(),"Table");
+        for(auto it: menu)
+            cout<<it<<"  ";
+        cout<<endl;
+        
+        for(i=0;i<order.size();i++)
+        {
+            int t=stoi(order[i][1]);
+            vector<string> v(n,"0");
+            v.insert(v.begin(),order[i][1]);
+            if(!(find(begin(idx), end(idx), v) != end(idx)))
+                idx.push_back(v);
+        }
+        
+        sort(idx.begin(), idx.end(), sortcol);
+        
+        j=0;
+        
+        for(i=0;i<order.size();)
+        {
+            if(j<idx.size() && order[i][1]==idx[j][0])
+            {
+                it=find(menu.begin(),menu.end(),order[i][2]);
+                if(it!=menu.end())
+                {
+                    idx[j][it-menu.begin()]=to_string(stoi(idx[j][it-menu.begin()])+1);
+                    i++;
+                }       
+            }
+            else if(j<idx.size())
+                j++;
+            else if(j>=idx.size())
+                j=0;
+        }
+        
+        idx.insert(idx.begin(),menu);
+        
+        return idx;
+    }
+};
