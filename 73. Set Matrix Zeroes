@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& mat) 
+    {
+        int i,j;
+        set<int> s,st;
+        for(i=0;i<mat.size();i++)
+        {
+            for(j=0;j<mat[i].size();j++)
+            {
+                if(mat[i][j]==0)
+                {
+                    s.insert(i);
+                    st.insert(j);
+                }              
+            }
+                
+        }
+        
+        for(i=0;i<mat.size();i++)
+        {
+            for(j=0;j<mat[i].size();j++)
+            {
+                for(auto it: s)
+                    mat[it][j]=0;
+                for(auto it: st)
+                    mat[i][it]=0;
+            }
+        }
+    }
+};
