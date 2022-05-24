@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string sortSentence(string s) 
+    {
+        vector<string> v(10,"0");
+        int i;
+        string word="";
+        for(i=0;i<s.size();i++)
+        {
+            if(s[i]!=32 && (s[i]<48 || s[i]>57))
+                word=word+s[i];
+            else if(s[i]>=48 && s[i]<=57)
+            {
+                v[s[i]-'0']=word;
+                word="";
+            }
+        }
+        s=v[1];
+        for(i=2;i<v.size();i++)
+        {
+            if(v[i]!="0")
+                s=s+" "+v[i];
+        }
+        return s;
+    }
+};
