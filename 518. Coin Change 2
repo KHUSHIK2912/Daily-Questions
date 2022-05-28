@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int change(int sum, vector<int>& coins) 
+    {
+        int i,j,n=coins.size();
+        int t[n+1][sum+1];
+        
+        for(i=0;i<n+1;i++)
+            t[i][0]=1;
+        for(j=1;j<sum+1;j++)
+            t[0][j]=0;
+        
+        for(i=1;i<n+1;i++)
+        {
+            for(j=1;j<sum+1;j++)
+            {
+                if(coins[i-1]<=j)
+                    t[i][j]=t[i][j-coins[i-1]]+t[i-1][j];
+                else
+                    t[i][j]=t[i-1][j];
+            }
+        }
+        
+        return t[n][sum];
+    }
+};
