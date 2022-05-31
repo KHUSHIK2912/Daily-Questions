@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> getRow(int n) 
+    {
+        vector<vector<int>> v(n+1);
+        int i,j;
+        v[0].push_back(1);
+        for(i=1;i<n+1;i++)
+        {
+            v[i].push_back(1);
+            for(j=1;j<i;j++)
+                v[i].push_back(v[i-1][j-1]+v[i-1][j]);
+            v[i].push_back(1);
+        }
+        
+        return v[n];
+    }
+};
