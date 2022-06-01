@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<string> reorderLogFiles(vector<string>& logs) 
+    {
+        map<string,vector<string>> ml;
+        vector<string> v;
+        int i,j;
+        char ch;
+        string id="",r;
+        
+        for(i=0;i<logs.size();i++)
+        {
+            id="";
+            for(j=0;j<logs[i].size();j++)
+            {
+                id=id+logs[i][j];
+                if(logs[i][j]==' ')
+                    break;
+            }
+            
+            ch=logs[i][j+1];
+            r=logs[i].substr(j+1);
+            
+            if(ch<=57 && ch>=48)
+                v.push_back(logs[i]);
+            else
+                ml[r].push_back(id);
+        }
+        
+        logs.clear();
+        
+        for(auto it:ml)
+        {
+            sort(it.second.begin(),it.second.end());
+            for(i=0;i<it.second.size();i++)
+            {
+                r=it.second[i]+it.first;
+                logs.push_back(r);
+            }            
+        }        
+        
+        for(i=0;i<v.size();i++)
+            logs.push_back(v[i]);
+        
+        return logs;
+    }
+};
