@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> transpose(vector<vector<int>>& mat) 
+    {
+        int i=0,j=0,n,m;
+        vector<vector<int>> v;
+        vector<int> vt;
+        n=mat.size();
+        m=mat[0].size();
+        
+        while(i<n)
+        {
+            if(j==m)
+                break;
+            vt.clear();
+            while(j<m)
+            {
+                if(i==n)
+                    break;
+                else
+                {
+                    vt.push_back(mat[i][j]);
+                    i++;
+                }
+            }
+            i=0;
+            j++;
+            v.push_back(vt);
+        }
+        return v;
+    }
+};
