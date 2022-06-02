@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) 
+    {
+        int i;
+        map<int,int> mp;
+        for(i=0;i<nums.size();i++)
+            mp[nums[i]]++;
+        
+        nums.clear();
+        for(auto it:mp)
+        {
+            if(it.second>1)
+                nums.push_back(it.first);
+        }
+        mp.clear();
+        return nums;
+    }
+};
