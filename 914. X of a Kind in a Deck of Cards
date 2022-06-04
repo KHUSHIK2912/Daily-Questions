@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int gcd(int x, int y)
+    {
+        if(y==0)
+            return x;
+        return gcd(y,x%y);
+    }
+    
+    bool hasGroupsSizeX(vector<int>& deck) 
+    {
+        int i,g;
+        map<int,int> mp;
+        
+        for(i=0;i<deck.size();i++)
+            mp[deck[i]]++;
+        
+        for(auto it: mp)
+        {
+            g=it.second;
+            break;
+        }
+        
+        for(auto it: mp)
+        {
+            g=gcd(g,it.second);
+            if(g<2)
+                return false;
+        }
+        
+        return true;
+    }
+};
