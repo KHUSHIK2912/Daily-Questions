@@ -1,0 +1,75 @@
+class Solution {
+public:
+    vector<vector<string>> ans;
+    
+    bool isSafe(vector<string>& v, int x, int y, int n)
+    {
+        int i,j;
+        for(i=0;i<x;i++)
+        {
+            if(v[i][y]=='Q')
+                return false;
+        }
+        
+        i=x;j=y;
+        
+        while(i>=0 && j>=0)
+        {
+            if(v[i][j]=='Q')
+                return false;
+            i--;
+            j--;
+        }
+        
+        i=x;j=y;
+        
+        while(i>=0 && j<n)
+        {
+            if(v[i][j]=='Q')
+                return false;
+            i--;
+            j++;
+        }
+        return true;
+    }
+    
+    void nQueen(vector<string>& v, int x, int n)
+    {
+        if(x==n)
+        {
+            ans.push_back(v);
+            return ;
+        }
+        
+        int j;
+        for(j=0;j<n;j++)
+        {
+            if(isSafe(v,x,j,n))
+            {
+                v[x][j]='Q';
+                
+                nQueen(v,x+1,n);
+                
+                v[x][j]='.';
+            }            
+        }
+
+    }
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        vector<string> str(n, string(n,'.'));
+        
+        nQueen(str,0,n);
+        
+        // int i,j;        
+        
+//         for(i=0;i<ans.size();i++)
+//         {
+//             for(j=0;j<ans[i].size();j++)
+//                 cout<<ans[i][j]<<"  ";
+//             cout<<endl;
+//         }
+        
+        return ans;
+    }
+};
