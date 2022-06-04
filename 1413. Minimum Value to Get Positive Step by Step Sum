@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) 
+    {
+        int i,mn=nums[0],n=nums.size();
+        
+        for(i=0;i<nums.size();i++)
+        {
+            if(mn>nums[i])
+                mn=nums[i];
+        }
+        if(mn>=0)
+            return 1;
+        
+        vector<int> v(n);
+        v[0]=nums[0];
+        
+        for(i=1;i<nums.size();i++)
+            v[i]=nums[i]+v[i-1];
+        
+        mn=v[0];
+        
+        for(i=0;i<v.size();i++)
+        {
+            if(mn>v[i])
+                mn=v[i];
+        }
+        
+        if(mn>=0)
+            return 1;
+        
+        return (abs(mn)+1);
+    }
+};
