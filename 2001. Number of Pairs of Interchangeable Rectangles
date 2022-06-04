@@ -1,0 +1,29 @@
+class Solution {
+public:
+    long long interchangeableRectangles(vector<vector<int>>& rect) 
+    {
+        map<double,int>mp;
+        double c;
+        int i,j,m=0;
+        long long sum=0,mx;
+        for(i=0;i<rect.size();i++)
+        {
+            c=rect[i][0]/((double)rect[i][1]);
+            mp[c]++;
+        }
+        
+        for(auto it:mp)
+            m=max(it.second,m);
+        
+        if(m<=1)
+            return 0;
+        
+        for(auto it:mp)
+        {
+            mx=it.second-1;
+            sum=sum+((mx*(mx+1))/2);
+        }
+        
+        return sum;
+    }
+};
