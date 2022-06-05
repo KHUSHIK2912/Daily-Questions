@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int mx) 
+    {
+        int i,j,n=nums.size();
+        vector<int> v(n);
+        v[0]=nums[0];
+        long long k=pow(2,mx);
+        
+        for(i=1;i<nums.size();i++)
+            v[i]=(v[i-1]^nums[i]);
+        
+        reverse(v.begin(),v.end());
+        
+        for(i=0;i<v.size();i++)
+            v[i]=k-v[i]-1;
+        return v;
+    }
+};
