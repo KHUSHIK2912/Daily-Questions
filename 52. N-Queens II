@@ -1,0 +1,64 @@
+class Solution {
+public:
+    bool isSafe(vector<string>& v, int x, int y, int n)
+    {
+        int i,j;
+        for(i=0;i<x;i++)
+        {
+            if(v[i][y]=='Q')
+                return false;
+        }
+        
+        i=x;j=y;
+        
+        while(i>=0 && j>=0)
+        {
+            if(v[i][j]=='Q')
+                return false;
+            i--;
+            j--;
+        }
+        
+        i=x;j=y;
+        
+        while(i>=0 && j<n)
+        {
+            if(v[i][j]=='Q')
+                return false;
+            i--;
+            j++;
+        }
+        return true;
+    }
+    
+    void nQueen(vector<string>& v, int x, int n, int& c)
+    {
+        if(x==n)
+        {
+            c++;
+            return ;
+        }
+        
+        int j;
+        for(j=0;j<n;j++)
+        {
+            if(isSafe(v,x,j,n))
+            {
+                v[x][j]='Q';
+                
+                nQueen(v,x+1,n,c);
+                
+                v[x][j]='.';
+            }            
+        }
+
+    }
+    int totalNQueens(int n) 
+    {
+        vector<string> str(n, string(n,'.'));
+        int c=0;
+        
+        nQueen(str,0,n,c);
+        return c;
+    }
+};
