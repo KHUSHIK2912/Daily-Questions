@@ -1,0 +1,46 @@
+Recursive Approach
+
+class Solution {
+public:
+    int solve(vector<int>& cost, int n, int i)
+    {
+        if(i>=n)
+            return 0;
+        if(i==n-1)
+            return cost[i];
+        return cost[i]+min(solve(cost,n,i+1), solve(cost,n,i+2));
+    }
+    int minCostClimbingStairs(vector<int>& cost) 
+    {
+        int n=cost.size();
+        return min(solve(cost,n,0), solve(cost,n,1));
+    }
+};
+
+
+
+
+
+Memoization (Bottom Up Approach)
+
+class Solution {
+public:
+    vector<int> t;
+    int solve(vector<int>& cost, int n, int i)
+    {
+        if(i>=n)
+            return 0;
+        if(i==n-1)
+            return t[i]=cost[i];
+        
+        if(t[i]!=-1)
+            return t[i];
+        return t[i]=cost[i]+min(solve(cost,n,i+1), solve(cost,n,i+2));
+    }
+    int minCostClimbingStairs(vector<int>& cost) 
+    {
+        int n=cost.size();
+        t=vector<int>(n,-1); 
+        return min(solve(cost,n,0), solve(cost,n,1));
+    }
+};
