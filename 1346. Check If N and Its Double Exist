@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) 
+    {
+        int i,low,high;
+        vector<int> ::iterator it;
+        
+        for(i=0;i<arr.size();i++)
+        {
+            if(arr[i]%2==0)
+            {
+                low=arr[i]/2;
+                it=find(arr.begin(),arr.end(),low);
+                if(it!=arr.end() && (it-arr.begin())!=i)
+                    return true;
+            }
+            
+            high=arr[i]*2;
+            it=find(arr.begin(),arr.end(),high);
+            if(it!=arr.end() && (it-arr.begin())!=i)
+                return true;
+        }
+        return false;
+    }
+};
