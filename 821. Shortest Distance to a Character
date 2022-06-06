@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> shortestToChar(string s, char c) 
+    {
+        vector<int> v;
+        int i,f=0,b,m;
+        b=s.find(c);
+        
+        for(i=0;i<s.size();i++)
+        {
+            if(s[i]==c)
+            {
+                f=i;
+                b=f;
+                v.push_back(0);
+            }
+            else
+            {
+                f=s.find(c,i);
+                m=min(abs(i-b),abs(f-i));
+                v.push_back(m);
+            }            
+        }
+        
+        return v;
+    }
+};
