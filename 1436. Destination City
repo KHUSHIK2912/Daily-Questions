@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) 
+    {
+        int i,j,flag=0;
+        string s;
+        
+        for(i=0;i<paths.size();i++)
+        {
+            s=paths[i][1];
+            flag=0;
+            for(j=0;j<paths.size();j++)
+            {
+                if(s==paths[j][0])
+                {
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)
+                break;
+        }
+        return s;
+    }
+};
