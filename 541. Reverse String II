@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string reverseStr(string s, int k) 
+    {
+        int i,n=s.size();
+        string r,st;
+        
+        for(i=0;i<n;i+=(2*k))
+        {
+            if(k+i<=n)
+            {
+                r=s.substr(i,k);
+                reverse(r.begin(),r.end());
+                st=st+r+s.substr(i+k,k);
+            }
+        }
+        
+        if(st.size()!=n)
+        {
+            r=s.substr(st.size(),n-st.size());
+            reverse(r.begin(),r.end());
+            st=st+r;
+        }
+        return st;
+    }
+};
