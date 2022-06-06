@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> v={2,3,5,7,11,13,17,19,23,29,31};
+    int ones(int n)
+    {
+        int c=0;
+        while(n>0)
+        {
+            n=n&(n-1);
+            c++;
+        }
+        return c;
+    }
+    int countPrimeSetBits(int left, int right) 
+    {
+        int i,c=0,t;
+        
+        for(i=left;i<=right;i++)
+        {
+            t=ones(i);
+            if(find(v.begin(),v.end(),t)!=v.end())
+                c++;
+        }
+        return c;
+    }
+};
