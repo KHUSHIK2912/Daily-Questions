@@ -1,0 +1,51 @@
+class Solution {
+public:    
+    vector<int> t;
+    
+    bool ispowof2(int n)
+    {
+        return (n && !(n&(n-1)));
+    }
+    
+    int power(int x)
+    {
+        if(x==1)
+            return 0;
+        
+        if(ispowof2(x))
+            return t[x]=log2(x);
+        
+        if(t[x]!=-1)
+            return t[x];
+        
+        if(x%2==0)
+            return t[x]=1+power(x/2);
+        else
+            return t[x]=1+power((3*x)+1);
+    }
+       
+    int getKth(int lo, int hi, int k) 
+    {
+        t=vector<int>(1000000,-1);
+        
+        int i,c;
+        multimap<int,int> mp;
+        
+        for(i=lo;i<=hi;i++)
+        {
+            c=power(i);
+            mp.insert({c,i});
+        }
+        
+        for(auto it: mp)
+        {
+            k--;
+            if(k==0)
+            {
+                c=it.second;
+                break;
+            }
+        }
+        return c;
+    }
+};
