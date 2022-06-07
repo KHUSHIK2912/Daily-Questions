@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) 
+    {
+        int i,j,k=1,rs=0,re=n-1,cs=0,ce=n-1;
+        vector<vector<int>> v(n, vector<int>(n,0));
+        
+        while(rs<=re && cs<=ce)
+        {
+            for(i=cs;i<=ce;i++)
+            {
+                v[rs][i]=k;
+                k++;
+            }
+            rs++;
+            
+            for(i=rs;i<=re;i++)
+            {
+                v[i][ce]=k;
+                k++;
+            }
+            ce--;
+            
+            for(i=ce;i>=cs;i--)
+            {
+                v[re][i]=k;
+                k++;
+            }
+            re--;
+            
+            for(i=re;i>=rs;i--)
+            {
+                v[i][cs]=k;
+                k++;
+            }
+            cs++;
+        }
+        
+        return v;
+    }
+};
