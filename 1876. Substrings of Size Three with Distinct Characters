@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int countGoodSubstrings(string s) 
+    {
+        map<char,int> mp;
+        int i,j,c=0,n=s.size();
+        
+        mp[s[0]]++;
+        mp[s[1]]++;
+        mp[s[2]]++;
+        j=3;
+        
+        if(mp[s[0]]==1 && mp[s[1]]==1 && mp[s[2]]==1)
+            c++;
+        
+        for(i=1;i<=n-3;i++)
+        {
+            mp[s[i-1]]--;
+            mp[s[j]]++;
+            
+            if(mp[s[i]]==1 && mp[s[i+1]]==1 && mp[s[i+2]]==1)
+                c++;
+            
+            j++;
+            if(j>=n)
+                break;
+        }
+        
+        return c;
+    }
+};
