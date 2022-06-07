@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> targetIndices(vector<int>& nums, int target) 
+    {
+        sort(nums.begin(),nums.end());
+        
+        int i=0,j=nums.size()-1;
+        vector<int> v;
+        
+        while(i<j)
+        {
+            if(nums[i]==target && i!=j)
+                v.push_back(i);
+            if(nums[j]==target && i!=j)
+                v.push_back(j);
+            i++;
+            j--;
+        }
+        if(nums[i]==target && i==j)
+            v.push_back(i);
+        
+        sort(v.begin(),v.end());
+        
+        return v;
+    }
+};
