@@ -1,0 +1,133 @@
+I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& mat, int i, int j, int n)
+    {
+        if(i==n)
+            return 0;
+        int a,b;
+        
+        if(j+1==n)
+            a=1000000;
+        else if(j+1<n)
+            a=solve(mat,i+1,j+1,n);
+        
+        if(j-1<0)
+            b=1000000;
+        else if(j-1>=0)
+            b=solve(mat,i+1,j-1,n);
+        
+        return mat[i][j]+min(solve(mat,i+1,j,n), min(a,b));
+    }
+    int minFallingPathSum(vector<vector<int>>& mat) 
+    {
+        int n=mat.size(),j,ans,mn=INT_MAX;
+        
+        for(j=0;j<n;j++)
+        {
+            ans=solve(mat, 0, j, n);
+            mn=min(mn,ans);
+        }
+        return mn;
+    }
+};
+
+
+II)  MEMOISED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<vector<int>>& mat, int i, int j, int n)
+    {
+        if(i==n)
+            return 0;
+        if(t[i][j]!=-1)
+            return t[i][j];
+        int a,b;
+        
+        if(j+1==n)
+            a=1000000;
+        else if(j+1<n)
+            a=solve(mat,i+1,j+1,n);
+        
+        if(j-1<0)
+            b=1000000;
+        else if(j-1>=0)
+            b=solve(mat,i+1,j-1,n);
+        
+        return t[i][j]=mat[i][j]+min(solve(mat,i+1,j,n), min(a,b));
+    }
+    int minFallingPathSum(vector<vector<int>>& mat) 
+    {
+        int n=mat.size(),i,j,ans,mn=INT_MAX;
+        
+        t=vector<vector<int>>(n+1, vector<int> (n+1,-1));
+        
+        for(j=0;j<n;j++)
+        {
+            ans=solve(mat, 0, j, n);
+            mn=min(mn,ans);
+        }
+        
+        // for(i=0;i<n+1;i++)
+        // {
+        //     for(j=0;j<n+1;j++)
+        //         cout<<t[i][j]<<"   ";
+        //     cout<<endl;
+        // }
+        return mn;
+    }
+};
+
+
+
+
+
+III)   DYNAMIC PROGRAMMING APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& mat, int n)
+    {
+        int t[n+1][n+2];
+        int i,j,mn=INT_MAX;
+        
+        for(i=0;i<n+1;i++)
+        {
+            for(j=0;j<n+2;j++)
+                t[i][j]=10000000;
+        }
+        
+        for(j=1;j<n+1;j++)
+            t[n-1][j]=mat[n-1][j-1];
+        
+        for(i=n-2;i>=0;i--)
+        {
+            for(j=1;j<n+1;j++)
+            {
+                t[i][j]=mat[i][j-1]+min(t[i+1][j], min(t[i+1][j-1], t[i+1][j+1]));
+            }
+        }
+        
+        for(j=0;j<n+2;j++)
+            mn=min(t[0][j],mn);
+        
+        // for(i=0;i<n+1;i++)
+        // {
+        //     for(j=0;j<n+2;j++)
+        //         cout<<t[i][j]<<"   ";
+        //     cout<<endl;
+        // }
+        
+        return mn;
+    }
+    int minFallingPathSum(vector<vector<int>>& mat) 
+    {
+        int n=mat.size();
+        return solve(mat, n);
+    }
+};
+
+
