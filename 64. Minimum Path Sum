@@ -1,0 +1,97 @@
+I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& grid, int n, int m)
+    {
+        if(n==0 && m==0)
+            return grid[0][0];
+        if(n<0 || m<0)
+            return 1000000;
+        return grid[n][m]+min(solve(grid,n,m-1), solve(grid,n-1,m));
+    }
+    int minPathSum(vector<vector<int>>& grid) 
+    {
+        int n=grid.size(), m=grid[0].size();
+        return solve(grid, n-1, m-1);
+    }
+};
+
+
+
+
+
+
+II)  MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<vector<int>>& grid, int n, int m)
+    {
+        if(n==0 && m==0)
+            return grid[0][0];
+        if(n<0 || m<0)
+            return 1000000;
+        if(t[n][m]!=-1)
+            return t[n][m];
+        return t[n][m]=grid[n][m]+min(solve(grid,n,m-1), solve(grid,n-1,m));
+    }
+    int minPathSum(vector<vector<int>>& grid) 
+    {
+        int n=grid.size(), m=grid[0].size();
+        t=vector<vector<int>>(n+1, vector<int>(m+1,-1));
+        return solve(grid, n-1, m-1);
+    }
+};
+
+
+
+
+
+
+
+III)  DYNAMIC PROGRAMMING APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& grid, int n, int m)
+    {
+        int t[n+1][m+1];
+        int i,j;
+        
+        for(i=0;i<n+1;i++)
+        {
+            for(j=0;j<m+1;j++)
+            {
+                if(i==0 || j==0)
+                    t[i][j]=100000;
+            }
+        }
+        
+        for(i=1;i<n+1;i++)
+        {
+            for(j=1;j<m+1;j++)
+            {
+                if(i==1 && j==1)
+                    t[i][j]=grid[0][0];
+                else
+                    t[i][j]=grid[i-1][j-1]+min(t[i-1][j], t[i][j-1]);
+            }
+        }
+        
+        // for(i=0;i<n+1;i++)
+        // {
+        //     for(j=0;j<m+1;j++)
+        //         cout<<t[i][j]<<"  ";
+        //     cout<<endl;
+        // }
+        
+        return t[n][m];
+    }
+    int minPathSum(vector<vector<int>>& grid) 
+    {
+        int n=grid.size(), m=grid[0].size();
+        return solve(grid, n, m);
+    }
+};
