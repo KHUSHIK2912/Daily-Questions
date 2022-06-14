@@ -1,0 +1,106 @@
+I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& obs, int m, int n)
+    {                
+        if(m<0 || n<0)
+            return 0;
+        if(obs[m][n]==1)
+            return 0;
+        if(m==0 && n==0)
+            return 1;
+        return solve(obs, m, n-1)+solve(obs, m-1, n);
+    }
+    int uniquePathsWithObstacles(vector<vector<int>>& obs) 
+    {
+        int m=obs.size(), n=obs[0].size();
+        return solve(obs, m-1, n-1);
+    }
+};
+
+
+
+
+
+
+
+
+II)   MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<vector<int>>& obs, int m, int n)
+    {                
+        if(m<0 || n<0)
+            return 0;
+        if(obs[m][n]==1)
+            return 0;
+        if(m==0 && n==0)
+            return 1;
+        if(t[m][n]!=-1)
+            return t[m][n];
+        return t[m][n]=solve(obs, m, n-1)+solve(obs, m-1, n);
+    }
+    int uniquePathsWithObstacles(vector<vector<int>>& obs) 
+    {
+        int m=obs.size(), n=obs[0].size();
+        t=vector<vector<int>>(m+1, vector<int>(n+1,-1));
+        return solve(obs, m-1, n-1);
+    }
+};
+
+
+
+
+
+
+
+III)  DYNAMIC PROGRAMMING APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& obs, int m, int n)
+    {          
+        int t[m+1][n+1];
+        int i,j;
+        
+        for(i=0;i<m+1;i++)
+        {
+            for(j=0;j<n+1;j++)
+            {
+                if(i==0 || j==0) 
+                    t[i][j]=0;
+            }                
+        }
+        
+        for(i=1;i<m+1;i++)
+        {
+            for(j=1;j<n+1;j++)
+            {
+                if(obs[i-1][j-1]==1)
+                    t[i][j]=0;
+                else if(i==1 && j==1)
+                    t[i][j]=1;
+                else
+                    t[i][j]=t[i][j-1]+ t[i-1][j];
+            }
+        }
+        
+        // for(i=0;i<m+1;i++)
+        // {
+        //     for(j=0;j<n+1;j++)
+        //         cout<<t[i][j]<<"  ";
+        //     cout<<endl;
+        // }
+        
+        return t[m][n];
+    }
+    int uniquePathsWithObstacles(vector<vector<int>>& obs) 
+    {
+        int m=obs.size(), n=obs[0].size();
+        return solve(obs, m, n);
+    }
+};
+
