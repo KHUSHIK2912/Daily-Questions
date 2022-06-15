@@ -1,0 +1,106 @@
+I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(vector<int>& nums, int n, int i, int j)
+    {
+        if(i==n || j==n)
+            return 0;
+        if(nums[i]<nums[j])
+            return max(solve(nums,n,i,j+1), 1+solve(nums,n,j,j+1));
+        return solve(nums,n,i,j+1);
+    }
+    
+    int lengthOfLIS(vector<int>& nums) 
+    {
+        int i,j,mx=INT_MIN,ans,n=nums.size();
+        if(n==1)
+            return 1;
+        for(i=0;i<nums.size()-1;i++)
+        {
+            ans=1+solve(nums,n,i,i+1);
+            mx=max(mx,ans);
+        }
+        mx=max(mx,ans);
+        return mx;
+    }
+};
+
+
+
+
+
+
+II)  MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<int>& nums, int n, int i, int j)
+    {
+        if(i==n || j==n)
+            return 0;
+        if(t[i][j]!=-1)
+            return t[i][j];
+        if(nums[i]<nums[j])
+            return t[i][j]=max(solve(nums,n,i,j+1), 1+solve(nums,n,j,j+1));
+        return t[i][j]=solve(nums,n,i,j+1);
+    }
+    
+    int lengthOfLIS(vector<int>& nums) 
+    {
+        int i,j,mx=INT_MIN,ans,n=nums.size();
+        if(n==1)
+            return 1;
+        t=vector<vector<int>>(n+1, vector<int>(n+1,-1));
+        for(i=0;i<nums.size()-1;i++)
+        {
+            ans=1+solve(nums,n,i,i+1);
+            mx=max(mx,ans);
+        }
+        mx=max(mx,ans);
+        return mx;
+    }
+};
+
+
+
+
+
+
+
+III)  DYNAMIC PROGRAMMING APPROACH
+
+class Solution {
+public:
+    int solve(vector<int>& nums, int n)
+    {
+        int t[n];
+        int i,j;
+        
+        for(i=0;i<n;i++)
+            t[i]=1;
+        
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<i;j++)
+            {
+                if(nums[i]>nums[j])
+                    t[i]=max(t[i],1+t[j]);
+            }
+        }
+        
+        // for(i=0;i<n;i++)
+        //     cout<<t[i]<<"  ";
+        // cout<<endl;
+        return *max_element(t,t+n);
+    }
+    
+    int lengthOfLIS(vector<int>& nums) 
+    {
+        if(nums.size()==1)
+            return 1;
+        
+        return solve(nums,nums.size());
+    }
+};
