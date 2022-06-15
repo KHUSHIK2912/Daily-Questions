@@ -1,0 +1,43 @@
+I)  BRUTE FORCE APPROACH
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& val) 
+    {   
+        int i,j,mx=INT_MIN, t,n=val.size();
+        cout<<n;
+        
+        for(i=0;i<n;i++)
+        {
+            for(j=i+1;j<n;j++)
+            {
+                t=val[i]+val[j]+i-j;
+                mx=max(mx,t);
+            }
+        }
+        return mx;
+    }
+};
+
+
+
+
+
+II)  DYNAMIC PROGRAMMING APPROACH
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& val) 
+    {        
+        int i,mx,ans=0,n=val.size();
+        mx=val[n-1]-(n-1);
+        
+        for(i=n-2;i>=0;i--)
+        {
+            mx=max(mx, val[i+1]-(i+1));
+            ans=max(ans, mx+val[i]+i);
+        }
+        
+        return ans;
+    }
+};
