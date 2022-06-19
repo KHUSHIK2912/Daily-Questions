@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int countSubsets(vector<int>& nums, int sum, int n)
+    {
+        long int i,j;
+        unsigned long long int t[sum+1];
+        
+        for(i=0;i<sum+1;i++)
+            t[i]=0;
+        
+        t[0]=1;
+        
+        for(i=1;i<sum+1;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(nums[j]<=i)
+                    t[i] = t[i-nums[j]] + t[i];
+            }
+        }
+        
+        // for(j=0;j<sum+1;j++)
+        //     cout<<t[j]<<"  ";
+        // cout<<endl;
+        
+        return t[sum];
+    }
+    int combinationSum4(vector<int>& nums, int target) 
+    {
+        int n=nums.size();
+        return countSubsets(nums, target, n);
+    }
+};
