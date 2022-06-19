@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& pro, string sea) 
+    {
+        int i,j,k;
+        vector<string> v;
+        vector<vector<string>> vs;
+        size_t t;
+        string s="";
+        sort(pro.begin(), pro.end());
+        
+        for(i=0;i<sea.size();i++)
+        {
+            s=s+sea[i];
+            for(j=0;j<pro.size();j++)
+            {
+                if(v.size()==3)
+                    break;
+                t=pro[j].find(s);
+                if(t==0)
+                    v.push_back(pro[j]);
+            }
+            vs.push_back(v);
+            v.clear();
+        }
+        return vs;
+    }
+    
+};
