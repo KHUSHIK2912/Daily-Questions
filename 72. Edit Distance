@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int LCSvariation(string x, string y, int n, int m)
+    {
+        int t[n+1][m+1];
+        int i,j;
+        
+        for(i=0;i<n+1;i++)
+            t[i][0]=i;
+        
+        for(j=0;j<m+1;j++)
+            t[0][j]=j;
+        
+        for(i=1;i<n+1;i++)
+        {
+            for(j=1;j<m+1;j++)
+            {
+                if(x[i-1]==y[j-1])
+                    t[i][j]=t[i-1][j-1];
+                else
+                    t[i][j] = 1 + min(t[i-1][j-1], min(t[i-1][j], t[i][j-1]));
+                // Out of 3 operations we have to select 1 operation, at a time, when the characters of both string are not equal, such that the ans is minimum
+                // 3 cases when letters do not match: 
+                // Insert the element = (i, j-1)                 [Hypothetically]
+                // Replace the element = (i-1, j-1)
+                // Delete the element = (i-1, j)
+            }
+        }
+        
+        return t[n][m];
+    }
+    int minDistance(string word1, string word2) 
+    {
+        int n=word1.size(), m=word2.size();
+        return LCSvariation(word1, word2, n, m);
+    }
+};
