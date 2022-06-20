@@ -1,0 +1,29 @@
+// This function should return head to the DLL
+class Solution
+{
+    public: 
+    //Function to convert binary tree to doubly linked list and return it.
+    struct Node* dummy=new Node();
+    Node* t;
+    void inorderDLL(Node* root)
+    {
+        if(root==NULL)
+        return ;
+        
+        inorderDLL(root->left);
+        
+        t->right=root;
+        root->left=t;
+        t=t->right;
+        
+        inorderDLL(root->right);
+    }
+    Node * bToDLL(Node *root)
+    {
+        t=dummy;
+        inorderDLL(root);
+        t=dummy->right;
+        t->left=NULL;
+        return t;
+    }
+};
