@@ -1,0 +1,30 @@
+// Should return true if tree is Sum Tree, else false
+class Solution
+{
+    public:
+    int isSum(Node* root)
+    {
+        if(root==NULL)
+        return 0;
+        
+        return root->data+isSum(root->left)+isSum(root->right);
+    }
+    bool isSumTree(Node* root)
+    {
+        if(root==NULL)
+        return true;
+        
+        if(root->left==NULL && root->right==NULL)
+        return true;
+        
+        if(root->left)
+        isSumTree(root->left);
+        if(root->right)
+        isSumTree(root->right);
+        
+        if(root->data!=isSum(root->left)+isSum(root->right))
+        return false;
+        
+        return (isSumTree(root->left) && isSumTree(root->right));
+    }
+};
