@@ -1,0 +1,114 @@
+I)  RECURSIVE APPROACH
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int sum, count, c=0;
+    void solve(TreeNode* root, int& sum, int& count)
+    {
+        if(root==NULL)
+            return ;
+        
+        sum=sum+root->val;
+        count++;
+        solve(root->left, sum, count);
+        solve(root->right, sum, count);
+    }
+    int averageOfSubtree(TreeNode* root) 
+    {
+        if(root==NULL)
+            return 0;
+        
+        sum=0;
+        count=0;
+        
+        solve(root, sum, count);
+        if(root->val==sum/count)
+            c++;
+        averageOfSubtree(root->left);
+        averageOfSubtree(root->right);
+        return c;
+    }
+};
+
+
+
+
+
+
+
+II)  ITERATIVE APPROACH
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int sum, count;
+    void solve(TreeNode* root, int& sum, int& count)
+    {
+        if(root==NULL)
+            return ;
+        
+        sum=sum+root->val;
+        count++;
+        solve(root->left, sum, count);
+        solve(root->right, sum, count);
+    }
+    int averageOfSubtree(TreeNode* root) 
+    {
+        if(root==NULL)
+            return 0;
+        
+        TreeNode* node;
+        queue<TreeNode*> q;
+        q.push(root);
+        int i,n,c=0;
+        
+        while(!q.empty())
+        {
+            n=q.size();
+            for(i=0;i<n;i++)
+            {
+                node=q.front();
+                q.pop();
+                
+                if(node)
+                {
+                    sum=0;
+                    count=0;
+                    solve(node, sum, count);
+                    if(node->val==sum/count)
+                        c++;
+                    
+                    if(node->left)
+                        q.push(node->left);
+                    
+                    if(node->right)
+                        q.push(node->right);
+                }
+            }
+        }
+        
+        return c;
+        
+    }
+};
