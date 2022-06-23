@@ -1,0 +1,101 @@
+I)  FIRST APPROACH BY GETTING PATH 
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> v;
+    bool getPath(TreeNode* root, TreeNode* p)
+    {
+        if(root==NULL)
+            return false;
+        
+        v.push_back(root);
+        
+        if(root->val==p->val)
+            return true;
+        
+        if(getPath(root->left, p) || getPath(root->right, p))
+            return true;
+        
+        v.pop_back();
+        return false;        
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) 
+    {
+        vector<TreeNode*> path1, path2;
+        int i;
+        
+        if(getPath(root, p))
+            path1=v;
+        
+        v.clear();
+        
+        if(getPath(root, q))
+            path2=v;
+        
+        i=0;
+        while(i<path1.size() && i<path2.size())
+        {
+            if(path1[i]->val!=path2[i]->val)
+                return path1[i-1];
+            i++;
+        }
+        
+        return path1[i-1];
+    }
+};
+
+
+
+
+
+
+
+
+
+
+II)  RECURSIVE APPROACH - BETTER APPROACH
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) 
+    {
+        if(root==NULL)
+            return NULL;
+        
+        if(root->val==p->val || root->val==q->val)
+            return root;
+        
+        TreeNode* leftLCA=lowestCommonAncestor(root->left, p, q); 
+        TreeNode* rightLCA=lowestCommonAncestor(root->right, p, q);
+        
+        if(leftLCA && rightLCA)
+            return root;
+        
+        if(!leftLCA && !rightLCA)
+            return NULL;
+        
+        if(leftLCA)
+            return leftLCA;
+        
+        return rightLCA;
+    }
+};
