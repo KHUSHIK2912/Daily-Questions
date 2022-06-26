@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool getPath(TreeNode* root, TreeNode* node, string& p)
+    {
+        if(root==NULL)
+            return false;
+        
+        p=p+to_string(root->val);
+        if(root==node)
+            return true;
+        
+        if(getPath(root->left, node, p) || getPath(root->right, node, p))
+            return true;
+        
+        p=p.substr(0,p.size()-1);
+        return false;
+        
+    }
+    void getLeaf(TreeNode* root, vector<TreeNode*>& v)
+    {
+        if(root==NULL)
+            return;
+        
+        if(root->left==NULL && root->right==NULL)
+        {
+            v.push_back(root);
+            return ;
+        }
+        
+        getLeaf(root->left, v);
+        getLeaf(root->right, v);
+    }
+    int sumNumbers(TreeNode* root) 
+    {
+        if(root==NULL)
+            return 0;
+        
+        vector<TreeNode*> v;
+        int i,j;
+        
+        getLeaf(root, v);
+        
+        string p="";
+        long long int d,sum=0;
+        
+        for(i=0;i<v.size();i++)
+        {
+            getPath(root, v[i], p);
+            d=stoll(p);
+            sum+=d;
+            p="";
+        }
+        return sum;
+    }
+};
