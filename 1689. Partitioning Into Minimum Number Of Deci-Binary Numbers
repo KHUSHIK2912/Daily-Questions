@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int minPartitions(string n) 
+    {
+        int i,mx=0,t;
+        for(i=0;i<n.size();i++)
+        {
+            t=n[i]-'0';
+            mx=max(t,mx);
+        }
+        return mx;
+    }
+};
