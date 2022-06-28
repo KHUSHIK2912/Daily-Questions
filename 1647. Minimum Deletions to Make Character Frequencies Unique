@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int minDeletions(string s) 
+    {
+        multimap<int, char> mp;
+        multimap<int, char> ans;
+        vector<int> v(26,0);
+        
+        int i,sum=0,c;
+        
+        for(i=0;i<s.size();i++)
+            v[s[i]-'a']++;
+        
+        for(i=0;i<v.size();i++)
+        {
+            if(v[i]>0)
+                mp.insert({v[i], i+'a'});
+        }
+        v.clear();
+        
+        for(auto it: mp)
+        {
+            if(ans.find(it.first)==ans.end())
+                ans.insert({it.first,it.second});
+            
+            else
+            {
+                c=it.first;
+                c--;
+                while(ans.find(c)!=ans.end() && c>=0)
+                    c--;
+                
+                if(c>0)
+                    ans.insert({c,it.second});
+            }
+        }
+        for(auto it: ans)
+            sum+=it.first;
+        
+        return s.size()-sum;
+    }
+};
