@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int myAtoi(string s) 
+    {
+        long long int t;
+        int i=0,n=0,neg=0;
+        string r="";
+        
+        while(i<s.size())
+        {
+            if(s[i]!=' ')
+                break;
+            i++;
+        }
+        
+        if((s[i]=='-' || s[i]=='+') && (s[i+1]>57 || s[i+1]<48))
+            return 0;
+        else if((s[i]!='-' && s[i]!='+') && (s[i]>57 || s[i]<48))
+                return 0;
+        
+        for(i=0;i<s.size();i++)
+        {
+            if(s[i]<=57 && s[i]>=48)
+                r=r+s[i];
+            if(s[i]=='.')
+                break;
+            if(r!="" && (s[i]>57 || s[i]<48))
+                break;
+            if(r=="" && s[i]=='-')
+                neg=1;
+        }
+        
+        if(r[0]!='0' && r.size()>10 && neg==0)
+            return INT_MAX;
+        else if(r[0]!='0' && r.size()>10 && neg==1)
+            return INT_MIN;
+        
+        t=stoll(r);
+        
+        if(t>=INT_MAX && neg==0)
+            return INT_MAX;
+        else if(t>INT_MAX && neg==1)
+            return INT_MIN;
+        
+        n=t;
+        
+        if(neg==1)
+            n*=-1;
+        return n;
+    }
+};
