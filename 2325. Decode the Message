@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string decodeMessage(string key, string msg) 
+    {
+        int i,j=0;
+        map<char,char> mp;
+        char ch;
+        string s;
+        
+        for(i=0;i<key.size();i++)
+        {
+            ch=j+'a';
+            if(ch>='a' && ch<='z' && key[i]>='a' && key[i]<='z')
+            {
+                if(mp[key[i]]>'z' || mp[key[i]]<'a')
+                {
+                    mp[key[i]]=ch;
+                    j++;
+                }
+            }
+        }
+        
+        for(i=0;i<msg.size();i++)
+        {
+            if(msg[i]>='a' && msg[i]<='z')
+            {
+                s+=mp[msg[i]];
+            }
+            else
+                s+=msg[i];
+        }
+            
+        return s;
+    }
+};
