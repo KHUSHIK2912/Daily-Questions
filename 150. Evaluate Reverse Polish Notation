@@ -1,0 +1,58 @@
+class Solution {
+public:
+    int evalRPN(vector<string>& token) 
+    {
+        stack<int> st;
+        int i,sum=0,t,a,b;
+        
+        for(i=0;i<token.size();i++)
+        {
+            if(token[i]=="+")
+            {
+                a=st.top();
+                st.pop();
+                b=st.top();
+                st.pop();
+                
+                sum=(a+b);
+                st.push(sum);
+            }
+            else if(token[i]=="-")
+            {
+                a=st.top();
+                st.pop();
+                b=st.top();
+                st.pop();
+                
+                sum=(b-a);
+                st.push(sum);
+            }
+            else if(token[i]=="*")
+            {
+                a=st.top();
+                st.pop();
+                b=st.top();
+                st.pop();
+                
+                sum=(a*b);
+                st.push(sum);
+            }
+            else if(token[i]=="/")
+            {
+                a=st.top();
+                st.pop();
+                b=st.top();
+                st.pop();
+                
+                sum=(b/a);
+                st.push(sum);
+            }
+            else
+            {
+                t=stoi(token[i]);
+                st.push(t);
+            }
+        }
+        return st.top();
+    }
+};
