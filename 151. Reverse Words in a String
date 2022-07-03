@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string reverseWords(string s) 
+    {
+        stack<string> st;
+        int i;
+        string word="";
+        
+        for(i=0;i<s.size();i++)
+        {
+            if(s[i]!=32)
+                word+=s[i];
+            else
+            {
+                if(word.size()>0)
+                    st.push(word);
+                word="";
+            }
+        }
+        if(word.size()>0)
+            s=word;
+        else
+            s="";
+        
+        while(!st.empty())
+        {
+            s+=" "+st.top();
+            st.pop();
+        }
+        if(s[0]!=32)
+            return s;
+        else
+            return s.substr(1);
+    }
+};
