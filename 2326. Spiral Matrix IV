@@ -1,0 +1,68 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) 
+    {
+        ListNode* t=head;
+        int i,j,rs=0,re=m-1,cs=0,ce=n-1;
+        vector<vector<int>> v(m, vector<int>(n,-1));
+        
+        while(t!=NULL && rs<=re && cs<=ce)
+        {
+            for(i=cs;i<=ce;i++)
+            {
+                v[rs][i]=t->val;
+                t=t->next;
+                if(t==NULL)
+                    break;
+            }
+            rs++;
+            if(t==NULL)
+                break;
+            
+            for(i=rs;i<=re;i++)
+            {
+                v[i][ce]=t->val;
+                t=t->next;
+                if(t==NULL)
+                    break;
+            }
+            ce--;
+            if(t==NULL)
+                break;
+            
+            for(i=ce;i>=cs;i--)
+            {
+                v[re][i]=t->val;
+                t=t->next;
+                if(t==NULL)
+                    break;
+            }
+            re--;
+            if(t==NULL)
+                break;
+            
+            for(i=re;i>=rs;i--)
+            {
+                v[i][cs]=t->val;
+                t=t->next;
+                if(t==NULL)
+                    break;
+            }
+            cs++;
+            if(t==NULL)
+                break;
+        }
+        
+        return v;
+    }
+};
