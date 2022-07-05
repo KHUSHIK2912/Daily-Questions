@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minTimeToType(string word) 
+    {
+        int i,j,time=word.size(),d,t;
+        char ch='a';
+        for(i=0;i<word.size();i++)
+        {
+            t=word[i]-'a'+1;
+            d=ch-'a'+1;
+            d=abs(t-d);
+            t=26-d;
+            if(t>d)
+                time+=d;
+            else
+                time+=t;
+            ch=word[i];
+        }
+        return time;
+    }
+};
