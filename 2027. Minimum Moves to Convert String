@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minimumMoves(string s) 
+    {
+        int i,c=0,n=s.size();
+        for(i=0;i<s.size()-2;)
+        {
+            if(s[i]=='O')
+                i++;
+            else if(s[i]=='X' || s[i+1]=='X' || s[i+2]=='X')
+            {
+                c++;
+                i+=3;
+            }
+        }
+        
+        if(i<n && s[i]=='X')
+            c++;
+        else if(i<n-1 && s[i+1]=='X')
+            c++;
+        else if(i<n-2 && s[i+2]=='X')
+            c++;
+        return c;
+    }
+};
