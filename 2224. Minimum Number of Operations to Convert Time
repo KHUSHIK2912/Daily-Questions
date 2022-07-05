@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int convertTime(string current, string correct) 
+    {
+        int curhr,curmin,corhr,cormin;
+        
+        string s=current.substr(0,2);
+        curhr=stoi(s);
+        s=current.substr(3,2);
+        curmin=stoi(s);
+        s=correct.substr(0,2);
+        corhr=stoi(s);
+        s=correct.substr(3,2);
+        cormin=stoi(s);
+        
+        vector<int> v={60,15,5,1};
+        
+        int i=0,t,d,c=0;
+        while(i<4 && (curhr!=corhr || curmin!=cormin))
+        {
+            t=curmin+v[i];
+            d=curhr;
+            if(t>59)
+            {
+                d=curhr+1;
+                t-=60;
+            }
+            
+            if((d>corhr) || (d==corhr && t>cormin))
+                i++;
+            else
+            {
+                curmin=t;
+                curhr=d;
+                c++;
+            }
+        }
+        return c;
+    }
+};
