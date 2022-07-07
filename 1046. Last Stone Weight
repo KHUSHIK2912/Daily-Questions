@@ -1,0 +1,71 @@
+I) BRUTE FORCE APPROACH
+
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) 
+    {
+        sort(stones.begin(),stones.end());
+        
+        int i,x=0,y=0;
+        
+        for(i=stones.size()-1;i>=1;i--)
+        {
+            if(stones.size()>=2)
+            {
+                x=stones.back();
+                stones.pop_back();
+                
+                y=stones.back();
+                stones.pop_back();
+                
+                if(x!=y)
+                stones.push_back(x-y);
+            }
+            sort(stones.begin(),stones.end());
+        }
+        
+        if(stones.size()>0)
+            return stones.back();
+        else
+            return 0;
+    }
+};
+
+
+
+
+
+
+
+
+
+II)  USING HEAP
+
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) 
+    {
+        int x=0,y=0;
+        priority_queue<int> pq(stones.begin(), stones.end());
+        
+        while(!pq.empty())
+        {
+            x=pq.top();
+            pq.pop();
+            
+            if(!pq.empty())
+            {
+                y=pq.top();
+                pq.pop();
+                
+                if(x!=y)
+                    pq.push(x-y);
+                
+                if(pq.empty())
+                    return 0;
+            }
+        }
+        
+        return x;
+    }
+};
