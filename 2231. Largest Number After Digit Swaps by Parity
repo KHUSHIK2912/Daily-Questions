@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int largestInteger(int num) 
+    {
+        int n,i,t;
+        priority_queue<int> odd;
+        priority_queue<int> even;
+        
+        string s=to_string(num);
+        while(num>0)
+        {
+            t=num%10;
+            if(t%2==0)
+                even.push(t);
+            else
+                odd.push(t);
+            
+            num/=10;
+        }
+        
+        num=0;
+        n=s.size();
+        
+        for(i=0;i<s.size();i++)
+        {
+            t=s[i]-'0';
+            if(t%2==0)
+            {
+                num+=(even.top()* pow(10,n-i-1));
+                even.pop();                      
+            }
+            else
+            {
+                num+=(odd.top()* pow(10,n-i-1));
+                odd.pop();                      
+            }
+        }
+        
+        return num;
+    }
+};
