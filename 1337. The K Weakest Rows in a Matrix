@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) 
+    {
+        int i,j,c=0;
+        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        vector<int> v;
+        for(i=0;i<mat.size();i++)
+        {
+            c=0;
+            for(j=0;j<mat[i].size();j++)
+            {
+                if(mat[i][j]==0)
+                    break;
+                c++;
+            }
+            pq.push(make_pair(c,i));
+        }
+        
+        while(k>0 && !pq.empty())
+        {
+            v.push_back(pq.top().second);
+            pq.pop();
+            k--;
+        }
+        return v;
+    }
+};
