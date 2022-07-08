@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string kthLargestNumber(vector<string>& nums, int k) 
+    {
+        map<int, priority_queue<string>, greater<int>> mp;
+        int i;
+        string s;
+        
+        for(i=0;i<nums.size();i++)
+            mp[nums[i].size()].push(nums[i]);
+        
+        for(auto it: mp)
+        {
+            while(!it.second.empty() && k>0)
+            {
+                s=it.second.top();
+                it.second.pop();
+                k--;
+            }
+            if(k<=0)
+                break;
+        }
+        mp.clear();
+        
+        return s;
+    }
+};
