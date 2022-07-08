@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int maximumScore(int a, int b, int c) 
+    {
+        priority_queue<int> pq;
+        pq.push(a);
+        pq.push(b);
+        pq.push(c);
+        c=0;
+        
+        while(!pq.empty())
+        {
+            a=pq.top();
+            pq.pop();
+            
+            if(!pq.empty())
+            {
+                b=pq.top();
+                pq.pop();
+                
+                a--;
+                b--;
+                
+                if(a>0)
+                    pq.push(a);
+                if(b>0)
+                    pq.push(b);
+            }
+            else
+                break;
+            c++;
+        }
+        return c;
+    }
+};
