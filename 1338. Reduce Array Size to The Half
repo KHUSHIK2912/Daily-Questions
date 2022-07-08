@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) 
+    {
+        int i,n=arr.size(),sum=0;
+        map<int,int> mp;
+        priority_queue<pair<int,int>> pq;
+        
+        for(i=0;i<n;i++)
+            mp[arr[i]]++;
+        
+        for(auto it: mp)
+            pq.push(make_pair(it.second, it.first));
+        mp.clear();
+        i=0;
+        
+        while(!pq.empty())
+        {
+            sum+=pq.top().first;
+            i++;
+            if((n-sum)<=(n/2))
+                break;
+            pq.pop();
+        }
+        return i;
+    }
+};
