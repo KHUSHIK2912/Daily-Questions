@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) 
+    {
+        int i,n=nums.size();
+        
+        stack<int> st,stk;
+        vector<int> v(n);
+        
+        for(i=n-2;i>=0;i--)
+            stk.push(nums[i]);
+        
+        for(i=n-1;i>=0;i--)
+        {
+            while(!st.empty() && nums[i]>=st.top())
+                st.pop();
+            
+            if(!st.empty())
+                v[i]=st.top();
+            else
+            {
+                v[i]=-1;
+                while(!stk.empty() && nums[i]>=stk.top())
+                    stk.pop();
+                
+                if(!stk.empty())
+                    v[i]=stk.top();
+            }                
+            st.push(nums[i]);
+        }
+        return v;
+            
+    }
+};
