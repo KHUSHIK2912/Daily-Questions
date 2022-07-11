@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string makeGood(string s) 
+    {
+        int i,j;
+        stack<char> st;
+        
+        for(i=0;i<s.size();i++)
+        {
+            if(!st.empty())
+            {
+                if(((s[i]-'a')==(st.top()-'A')) || ((s[i]-'A')==(st.top()-'a')))
+                    st.pop();
+                else
+                    st.push(s[i]);
+            }
+            else
+                st.push(s[i]);
+        }
+        s="";
+        
+        while(!st.empty())
+        {
+            s=st.top()+s;
+            st.pop();
+        }
+        return s;
+    }
+};
