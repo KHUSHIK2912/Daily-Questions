@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minOperations(vector<string>& logs) 
+    {
+        int i;
+        stack<string> st;
+        
+        for(i=0;i<logs.size();i++)
+        {
+            if(logs[i][0]=='.' && logs[i][1]=='.' && !st.empty())
+                st.pop();
+            else if(logs[i][0]!='.')
+                st.push(logs[i]);                
+        }
+        
+        return st.size();
+    }
+};
