@@ -1,0 +1,50 @@
+I)  WITHOUT USING STACK
+
+class Solution {
+public:
+    int minAddToMakeValid(string s) 
+    {
+        int i,op=0,cl=0;
+        
+        for(i=0;i<s.size();i++)
+        {
+            if(s[i]=='(')
+                op++;
+            else if(s[i]==')')
+            {
+                if(op>0)
+                    op--;
+                else
+                    cl++;
+            }
+        }
+        return op+cl;
+    }
+};
+
+
+
+II) USING STACK
+
+class Solution {
+public:
+    int minAddToMakeValid(string s) 
+    {
+        int i;
+        stack<int> op,cl;
+        
+        for(i=0;i<s.size();i++)
+        {
+            if(s[i]=='(')
+                op.push(s[i]);
+            else if(s[i]==')')
+            {
+                if(!op.empty())
+                    op.pop();
+                else
+                    cl.push(s[i]);
+            }
+        }
+        return op.size()+cl.size();
+    }
+};
