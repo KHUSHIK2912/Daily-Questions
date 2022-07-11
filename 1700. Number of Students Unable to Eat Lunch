@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int countStudents(vector<int>& stu, vector<int>& sand)
+    {
+        stack<int> st;
+        queue<int> q;
+        int i,n=sand.size();
+        
+        for(i=n-1;i>=0;i--)
+            st.push(sand[i]);
+        
+        for(i=0;i<stu.size();i++)
+            q.push(stu[i]);
+        
+        while(!st.empty())
+        {
+            if(st.top()==q.front())
+            {
+                st.pop();
+                q.pop();
+            }
+            else
+            {
+                n=q.size();
+                while(n>0)
+                {
+                    i=q.front();
+                    q.pop();
+                    q.push(i);
+                    
+                    if(q.front()==st.top())
+                        break;
+                    n--;
+                }
+                if(st.top()==q.front())
+                {
+                    st.pop();
+                    q.pop();
+                }
+                else
+                    break;
+            }
+        }
+        
+        return q.size();
+    }
+};
