@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int timeRequiredToBuy(vector<int>& tick, int k) 
+    {
+        int i,c=0;        
+        queue<int> q;
+        
+        for(i=0;i<tick.size();i++)
+            q.push(i);
+        
+        while(tick[k]>0 && !q.empty())
+        {
+            i=q.front();            
+            q.pop();
+            
+            tick[i]-=1; 
+            c++;
+            
+            if(tick[i]>0)
+                q.push(i);
+        }
+        return c;
+    }
+};
