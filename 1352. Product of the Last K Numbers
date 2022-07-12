@@ -1,0 +1,48 @@
+class ProductOfNumbers {
+public:
+    vector<int> v;
+    vector<int> vt;
+    
+    ProductOfNumbers() 
+    {
+        
+    }
+    
+    void add(int num) 
+    {
+        int n=v.size();
+        if(n>0)
+        {
+            if(v[n-1]==0)
+            {
+                vt.push_back(n-1);
+                v.push_back(num);
+            }
+            else 
+                v.push_back(v[n-1]*num);
+        }
+        else
+            v.push_back(num);
+    }
+    
+    int getProduct(int t) 
+    {
+        int i,n=v.size();
+        t=n-t;
+        for(i=0;i<vt.size();i++)
+        {
+            if(vt[i]>=t)
+                return 0;                
+        }
+        if(t-1>=0 && v[t-1]!=0)
+            return v[n-1]/v[t-1];
+        return v[n-1];
+    }
+};
+
+/**
+ * Your ProductOfNumbers object will be instantiated and called as such:
+ * ProductOfNumbers* obj = new ProductOfNumbers();
+ * obj->add(num);
+ * int param_2 = obj->getProduct(k);
+ */
