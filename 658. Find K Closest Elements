@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) 
+    {
+        int i,d;
+        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        
+        for(i=0;i<arr.size();i++)
+        {
+            d=abs(arr[i]-x);
+            pq.push(make_pair(d,arr[i]));
+        }
+        
+        arr.clear();
+        while(k>0)
+        {
+            arr.push_back(pq.top().second);
+            pq.pop();
+            k--;
+        }
+        sort(arr.begin(), arr.end());
+        return arr;
+    }
+};
