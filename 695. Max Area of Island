@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) 
+    {
+        int i,j,n=grid.size(),m=grid[0].size(),c=0,flg=0,mx=0;
+        
+        map<pair<int,int>,vector<pair<int,int>>> mp;
+        
+        for(i=0;i<grid.size();i++)
+        {
+            for(j=0;j<m;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    flg=1;
+                    if(i+1<n && grid[i+1][j]==1)
+                        mp[make_pair(i,j)].push_back(make_pair(i+1,j));
+                    if(j+1<m && grid[i][j+1]==1)
+                        mp[make_pair(i,j)].push_back(make_pair(i,j+1));
+                    if(i-1>=0 && grid[i-1][j]==1)
+                        mp[make_pair(i,j)].push_back(make_pair(i-1,j));
+                    if(j-1>=0 && grid[i][j-1]==1)
+                        mp[make_pair(i,j)].push_back(make_pair(i,j-1));
+                }
+            }
+        }
+        
+        grid=vector<vector<int>> (n,vector<int>(m,0));
+        
+        queue<pair<int,int>> q;
+        pair<int,int> p;
+        
+        for(auto it: mp)
+        {
+            if(grid[it.first.first][it.first.second]==0)
+            {
+                c=1;
+                q.push(it.first);
+                while(!q.empty())
+                {                    
+                    p=q.front();
+                    grid[p.first][p.second]=1;                    
+                    q.pop();
+                    for(i=0;i<mp[p].size();i++)
+                    {
+                        if(grid[mp[p][i].first][mp[p][i].second]==0)
+                        {
+                            c++;
+                            grid[mp[p][i].first][mp[p][i].second]=1;
+                            q.push(mp[p][i]);
+                        }
+                    }
+                }
+                if(mx<c)
+                    mx=c;
+            }
+        }
+        if(mx==0 && flg==1)
+            return 1;
+        return mx;
+    }
+};
