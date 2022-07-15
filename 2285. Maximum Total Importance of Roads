@@ -1,0 +1,31 @@
+class Solution {
+public:
+    long long maximumImportance(int n, vector<vector<int>>& roads) 
+    {
+        long long i,sum=0;
+        vector<int> v(n,1);
+        priority_queue<pair<int,int>> pq;
+        
+        for(i=0;i<roads.size();i++)
+        {
+            v[roads[i][0]]++;
+            v[roads[i][1]]++;
+        }
+        
+        for(i=0;i<n;i++)
+            pq.push(make_pair(v[i],i));
+        
+        i=n;
+        while(!pq.empty())
+        {
+            v[pq.top().second]=i;
+            i--;
+            pq.pop();
+        }
+        
+        for(i=0;i<roads.size();i++)
+            sum+=v[roads[i][0]]+v[roads[i][1]];
+        
+        return sum;
+    }
+};
