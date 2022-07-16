@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> v,col;
+    bool bipart;    
+    void color(vector<vector<int>>& graph, int idx, int curr)
+    {
+        if(v[idx]==1 && curr!=col[idx])
+        {
+            bipart=false;
+            return;
+        }
+        
+        col[idx]=curr;
+        
+        if(v[idx]==1)
+            return;
+        
+        v[idx]=1;
+        
+        for(auto it: graph[idx])
+            color(graph,it,curr xor 1);
+    }
+    bool isBipartite(vector<vector<int>>& graph) 
+    {
+        int i,n=graph.size();
+        
+        v=vector<int>(n,0);
+        col=vector<int>(n,-1);
+        bipart=true;
+        
+        for(i=0;i<n;i++)
+        {
+            if(v[i]==0)
+                color(graph,i,0);
+        }
+        return bipart;
+    }
+};
