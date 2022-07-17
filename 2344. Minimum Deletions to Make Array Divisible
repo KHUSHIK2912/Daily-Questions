@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int minOperations(vector<int>& nums, vector<int>& nums2) 
+    {
+        int i,t,flg=0;
+        
+        sort(nums.begin(),nums.end());
+        set<int> s,st;
+        
+        for(i=0;i<nums.size();i++)
+            s.insert(nums[i]);
+        
+        for(i=0;i<nums2.size();i++)
+            st.insert(nums2[i]);
+        
+        for(auto it:s)
+        {
+            flg=0;
+            for(auto i:st)
+            {
+                if(i%it!=0)
+                {
+                    flg=1;
+                    break;
+                }
+            }
+            if(flg==0)
+            {
+                t=it;
+                break;
+            }
+        }
+        if(flg==1)
+            return -1;
+        
+        flg=0;
+        for(i=0;i<nums.size();i++)
+        {
+            if(nums[i]==t)
+            {
+                flg=1;
+                break;
+            }
+        }
+        
+        if(flg==1)
+            return i;
+        return -1;
+    }
+};
