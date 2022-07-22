@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> v;
+    vector<vector<int>> ans;
+    void getPath(int src, int dest, vector<vector<int>>& graph)
+    {
+        v.push_back(src);
+        if(src==dest)
+            ans.push_back(v);
+        
+        for(auto it: graph[src])
+            getPath(it,dest,graph);
+        
+        v.pop_back();
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) 
+    {
+        int n=graph.size();
+        getPath(0,n-1,graph);        
+        return ans;
+    }
+};
