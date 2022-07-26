@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) 
+    {
+        int i,u,v,w;
+        vector<int> dist(n+1,1000000000);
+        dist[k]=0;
+        
+        for(i=0;i<n-1;i++)
+        {
+            for(auto it: times)
+            {
+                u=it[0];
+                v=it[1];
+                w=it[2];
+                dist[v]=min(dist[v], (w+dist[u]));
+            }
+        }
+        
+        u=-1;
+        for(i=1;i<n+1;i++)
+            u=max(u,dist[i]);
+        
+        if(u==1000000000)
+            return -1;
+        return u;
+    }
+};
