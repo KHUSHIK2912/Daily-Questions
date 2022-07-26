@@ -1,0 +1,76 @@
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& eqs, vector<double>& val, vector<vector<string>>& q) 
+    {
+        int i,j,k,n,x,y;
+        map<string,int> mp;
+        set<string> s;
+        
+        for(i=0;i<eqs.size();i++)
+        {
+            s.insert(eqs[i][0]);
+            s.insert(eqs[i][1]);
+        }
+        
+        i=1;
+        for(auto it: s)
+        {
+            mp[it]=i;
+            i++;
+        }
+        n=s.size();
+        s.clear();
+        
+        vector<vector<double>> dist(n, vector<double>(n,100000000.0));
+        for(i=0;i<eqs.size();i++)
+        {
+            dist[mp[eqs[i][0]]-1][mp[eqs[i][1]]-1] = val[i];
+            dist[mp[eqs[i][1]]-1][mp[eqs[i][0]]-1] = (1/val[i]);
+        }        
+        
+        for(k=0;k<n;k++)
+        {
+            for(i=0;i<n;i++)
+            {
+                for(j=0;j<n;j++)
+                {
+                    if(i==j)
+                        dist[i][j]=1.0;
+                    else if((dist[i][k]*dist[k][j])<dist[i][j])
+                        dist[i][j]=(dist[i][k]*dist[k][j]);
+                }
+            }
+        }
+        
+        for(i=0;i<dist.size();i++)
+        {
+            for(j=0;j<dist[i].size();j++)
+            {
+                if(dist[i][j]>=100000.0)
+                    dist[i][j]=-1.0;
+                if(i==j)
+                    dist[i][j]=1.0;
+            }
+        }
+        val.clear();
+        
+        for(i=0;i<q.size();i++)
+        {
+            x=mp[q[i][0]];
+            y=mp[q[i][1]];
+            if(x!=0 && y!=0)
+            {
+                x=x-1;
+                y=y-1;
+                if(dist[x][y]!=-1.0)
+                    val.push_back(dist[x][y]);
+                else
+                    val.push_back(-1.0);
+            }
+            else
+                val.push_back(-1.0);
+        }
+        
+        return val;
+    }
+};
