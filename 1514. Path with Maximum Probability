@@ -1,0 +1,38 @@
+//BELLMAN FORD GIVES TLE IN THIS QUESTION
+class Solution {
+public:
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& prob, int start, int end) 
+    {        
+        int i,u,v;
+        vector<double> dist(n+1,-1);
+        vector<vector<pair<int, double>>> graph(n+1);
+        
+        for(i=0;i<edges.size();i++)
+        {
+            graph[edges[i][0]].push_back({edges[i][1], prob[i]});
+            graph[edges[i][1]].push_back({edges[i][0], prob[i]});
+        }
+        dist[start]=1;
+        set<pair<int,double>> s;
+        s.insert({0,start});
+        
+        while(!s.empty())
+        {
+            auto x=*(s.begin());
+            s.erase(x);
+            
+            for(auto it: graph[x.second])
+            {
+                if(dist[it.first]<(dist[x.second]*it.second))
+                {
+                    s.erase({dist[it.first], it.first});
+                    dist[it.first]=dist[x.second]*it.second;
+                    s.insert({dist[it.first], it.first});
+                }
+            }
+        }
+        if(dist[end]==-1)
+            return 0;
+        return dist[end];
+    }
+};
