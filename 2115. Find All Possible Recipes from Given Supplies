@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<string> findAllRecipes(vector<string>& rec, vector<vector<string>>& ing, vector<string>& sup) 
+    {
+        int i,j;
+        string s;
+        map<string, vector<string>> mp;
+        map<string,int> mp1;
+        
+        for(i=0;i<ing.size();i++)
+        {
+            for(j=0;j<ing[i].size();j++)
+            {
+                mp[ing[i][j]].push_back(rec[i]);
+                mp1[rec[i]]++;
+            }
+        }
+        
+        queue<string> q;
+        for(i=0;i<sup.size();i++)
+        {
+            mp1[sup[i]]=-1;
+            q.push(sup[i]);
+        }
+        sup.clear();
+        
+        while(!q.empty())
+        {
+            s=q.front();
+            q.pop();
+            if(find(rec.begin(), rec.end(), s)!=rec.end())
+                sup.push_back(s);
+            
+            for(auto it: mp[s])
+            {
+                mp1[it]--;
+                if(mp1[it]==0)
+                    q.push(it);
+            }
+        }
+        return sup;
+    }
+};
