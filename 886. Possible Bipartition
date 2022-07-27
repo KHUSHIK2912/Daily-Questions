@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<vector<int>> adj;
+    vector<int> col;
+    vector<bool> vis;
+    bool bipart;
+    
+    void color(int u, int curr)
+    {
+        if(col[u]!=-1 && col[u]!=curr)
+        {
+            bipart=false;
+            return;
+        }
+        
+        col[u]=curr;
+        if(vis[u])
+            return ;
+        vis[u]=true;
+        
+        for(auto it: adj[u])
+            color(it, curr xor 1);
+    }
+    bool possibleBipartition(int n, vector<vector<int>>& dis) 
+    {
+        adj=vector<vector<int>> (n+1);
+        col=vector<int> (n+1, -1);
+        vis=vector<bool> (n+1, false);
+        bipart=true;
+        
+        int i;
+        for(i=0;i<dis.size();i++)
+        {
+            adj[dis[i][0]].push_back(dis[i][1]);
+            adj[dis[i][1]].push_back(dis[i][0]);
+        }
+        
+        for(i=1;i<n+1;i++)
+        {            
+            if(!vis[i])
+                color(i,0);
+            if(!bipart)
+                return false;
+        }
+        return bipart;
+    }
+};
