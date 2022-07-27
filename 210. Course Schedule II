@@ -1,0 +1,67 @@
+class Solution {
+public:
+    vector<vector<int>> adj;
+    vector<int> stack;
+    vector<bool> vis;
+    bool isCycle(int src)
+    {
+        stack[src]=1;
+        if(!vis[src])
+        {
+            vis[src]=true;
+            for(auto it: adj[src])
+            {
+                if(!vis[it] && isCycle(it))
+                    return true;
+                if(stack[it]==1)
+                    return true;
+            }
+        }
+        stack[src]=0;
+        return false;
+    }
+    vector<int> findOrder(int n, vector<vector<int>>& pre) 
+    {
+        int i;
+        vector<int> indeg(n,0);
+        vector<int> v;
+        
+        adj=vector<vector<int>> (n);
+        stack=vector<int> (n,0);
+        vis=vector<bool> (n,false);
+        
+        for(i=0;i<pre.size();i++)            
+        {
+            adj[pre[i][1]].push_back(pre[i][0]);
+            indeg[pre[i][0]]++;
+        }
+        
+        for(i=0;i<n;i++)
+        {
+            if(!vis[i] && isCycle(i))
+                return v;
+        }
+        
+        queue<int> q;
+        for(i=0;i<n;i++)
+        {
+            if(indeg[i]==0)
+                q.push(i);
+        }
+        
+        while(!q.empty())
+        {
+            int x=q.front();
+            q.pop();
+            v.push_back(x);
+            
+            for(auto it: adj[x])
+            {
+                indeg[it]--;
+                if(indeg[it]==0)
+                    q.push(it);
+            }
+        }
+        return v;
+    }
+};
