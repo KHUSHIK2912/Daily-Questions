@@ -1,0 +1,118 @@
+I)  RECURSIVE SOLUTION
+
+class Solution {
+public:
+    int solve(int n, int i, char ch)
+    {
+        if(i==n-1)
+            return 1;
+        
+        int count=0;
+        
+        if(ch=='a')
+        {
+            count+=solve(n,i+1,'e');
+        }
+        
+        else if(ch=='e')
+        {
+            count+=solve(n,i+1,'a');
+            count+=solve(n,i+1,'i');
+        }
+        
+        else if(ch=='i')
+        {
+            count+=solve(n,i+1,'a');
+            count+=solve(n,i+1,'e');
+            count+=solve(n,i+1,'o');
+            count+=solve(n,i+1,'u');
+        }
+        
+        else if(ch=='o')
+        {
+            count+=solve(n,i+1,'i');
+            count+=solve(n,i+1,'u');
+        }
+        
+        else if(ch=='u')
+        {
+            count+=solve(n,i+1,'a');
+        }
+        
+        return count%1000000007;
+    }
+    int countVowelPermutation(int n) 
+    {
+        return solve(n,0,'a')+solve(n,0,'e')+solve(n,0,'i')+solve(n,0,'o')+solve(n,0,'u');
+    }
+};
+
+
+
+
+
+
+
+
+
+II)  MEMOIZED APPROACH
+
+
+class Solution {
+public:
+    vector<vector<long long int>> t;
+    map<char,int> mp;
+    long long int solve(int n, int i, char ch)
+    {
+        if(i==n-1)
+            return 1;
+        
+        if(t[mp[ch]][i]!=-1)
+            return t[mp[ch]][i]%1000000007;
+        
+        long long int count=0;
+        
+        if(ch=='a')
+        {
+            count+=solve(n,i+1,'e');
+        }
+        
+        else if(ch=='e')
+        {
+            count+=solve(n,i+1,'a');
+            count+=solve(n,i+1,'i');
+        }
+        
+        else if(ch=='i')
+        {
+            count+=solve(n,i+1,'a');
+            count+=solve(n,i+1,'e');
+            count+=solve(n,i+1,'o');
+            count+=solve(n,i+1,'u');
+        }
+        
+        else if(ch=='o')
+        {
+            count+=solve(n,i+1,'i');
+            count+=solve(n,i+1,'u');
+        }
+        
+        else if(ch=='u')
+        {
+            count+=solve(n,i+1,'a');
+        }
+        
+        return t[mp[ch]][i]=count%1000000007;
+    }
+    int countVowelPermutation(int n) 
+    {
+        mp['a']=0;
+        mp['e']=1;
+        mp['i']=2;
+        mp['o']=3;
+        mp['u']=4;
+        t=vector<vector<long long int>> (5, vector<long long int>(n+1,-1));
+        long long int ans=solve(n,0,'a')+solve(n,0,'e')+solve(n,0,'i')+solve(n,0,'o')+solve(n,0,'u');
+        return ans%1000000007;
+    }
+};
