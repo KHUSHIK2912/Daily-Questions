@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& arr, int k) 
+    {
+        long long int i,j,low,high,n=arr.size(),cur,t;
+        
+        vector<vector<int>> v;
+        set<vector<int>> s;
+        
+        sort(arr.begin(), arr.end());
+        
+        for(i=0;i<n;i++)
+        {
+            for(j=i+1;j<n;j++)
+            {
+                t=k-arr[i];
+                t-=arr[j];
+                low=j+1;
+                high=n-1;
+                while(low<high)
+                {
+                    cur=arr[low]+arr[high];
+                    if(cur==t)
+                    {
+                        s.insert({arr[i], arr[j], arr[low], arr[high]});
+                        low++;
+                    }
+                    else if(cur>t)
+                    high--;
+                    else
+                    low++;
+                }
+            }
+        }
+        
+        for(auto it: s)
+        v.push_back(it);
+        
+        return v;
+    }
+};
