@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> numSmallerByFrequency(vector<string>& que, vector<string>& words) 
+    {
+        map<char,int> mp;
+        vector<int> v,ans;
+        int i,j,c=0,mx=0;
+        
+        for(i=0;i<words.size();i++)
+        {
+            for(j=0;j<words[i].size();j++)
+                mp[words[i][j]]++;
+            
+            for(auto it:mp)
+            {
+                v.push_back(it.second);
+                break;
+            }
+            mp.clear();
+        }
+        
+        for(i=0;i<que.size();i++)
+        {
+            for(j=0;j<que[i].size();j++)
+                mp[que[i][j]]++;
+            
+            for(auto it:mp)
+            {
+                mx=it.second;
+                break;
+            }
+            mp.clear();
+            
+            c=0;
+            for(j=0;j<v.size();j++)
+            {
+                if(v[j]>mx)
+                    c++;
+            }
+            ans.push_back(c);
+        }
+        
+        return ans;
+    }
+};
