@@ -1,0 +1,119 @@
+APPROACH - I)  USING TWO STACKS
+
+
+class CustomStack {
+public:
+    int t;
+    stack<int> st;
+    CustomStack(int maxSize) 
+    {
+        t=maxSize;
+    }
+    
+    void push(int x) 
+    {
+        if(st.size()<t)
+            st.push(x);
+    }
+    
+    int pop() 
+    {
+        if(st.empty())
+            return -1;
+        int x=st.top();
+        st.pop();
+        return x;
+    }
+    
+    void increment(int k, int val) 
+    {
+        stack<int> s;
+        while(!st.empty())
+        {
+            s.push(st.top());
+            st.pop();
+        }
+        
+        while(!s.empty())
+        {
+            if(k>0)
+            {
+                st.push(s.top()+val);
+                k--;
+            }
+            else
+                st.push(s.top());
+            s.pop();
+        }
+    }
+};
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack* obj = new CustomStack(maxSize);
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * obj->increment(k,val);
+ */
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ APPROACH - II)  USING TWO DOUBLE ENDED QUEUE
+ 
+ 
+ class CustomStack {
+public:
+    int t;
+    deque<int> dq;
+    CustomStack(int maxSize) 
+    {
+        t=maxSize;
+    }
+    
+    void push(int x) 
+    {
+        if(dq.size()<t)
+            dq.push_back(x);
+    }
+    
+    int pop() 
+    {
+        if(dq.empty())
+            return -1;
+        int x=dq.back();
+        dq.pop_back();
+        
+        return x;
+    }
+    
+    void increment(int k, int val) 
+    {
+        stack<int> st;
+        while(k>0 && !dq.empty())
+        {
+            st.push(dq.front());
+            dq.pop_front();
+            k--;
+        }
+        
+        while(!st.empty())
+        {
+            dq.push_front(st.top()+val);
+            st.pop();
+        }
+    }
+};
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack* obj = new CustomStack(maxSize);
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * obj->increment(k,val);
+ */
