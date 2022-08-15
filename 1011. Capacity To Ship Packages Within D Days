@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isvalid(vector<int>& wts, int k, int mx)
+    {
+        int i,sum=0,c=1;
+        
+        for(i=0;i<wts.size();i++)
+        {
+            sum+=wts[i];
+            if(sum>mx)
+            {
+                c++;
+                sum=wts[i];
+            }
+            if(c>k)
+                return false;
+        }
+        return true;        
+    }
+    
+    int shipWithinDays(vector<int>& wts, int days) 
+    {
+        int i,st=0,res=-1,end=0,mid;
+        for(i=0;i<wts.size();i++)
+        {
+            end+=wts[i];
+            st=max(st,wts[i]);
+        }
+        
+        while(st<=end)
+        {
+            mid=(st+end)/2;
+            
+            if(isvalid(wts, days, mid))
+            {
+                res=mid;
+                end=mid-1;
+            }
+            else
+                st=mid+1;
+        }
+        
+        return res;
+    }
+};
