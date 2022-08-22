@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> pancakeSort(vector<int>& arr) 
+    {
+        int i,t;
+        vector<int> ans;
+        
+        for(i=arr.size()-1;i>=0;)
+        {
+            if(i+1!=arr[i])
+            {
+                t=find(arr.begin(), arr.end(), i+1)-arr.begin();
+                if(t==0)
+                {
+                    reverse(arr.begin(), arr.begin()+i+1);
+                    ans.push_back(i+1);
+                }
+                else
+                {
+                    ans.push_back(t+1);
+                    reverse(arr.begin(), arr.begin()+t+1);
+                }
+            }
+            else
+                i--;
+        }
+        
+        return ans;
+    }
+};
