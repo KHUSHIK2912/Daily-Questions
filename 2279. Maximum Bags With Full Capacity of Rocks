@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int maximumBags(vector<int>& cap, vector<int>& rock, int add) 
+    {
+        int i,c=0,t;
+        vector<int> v;
+        for(i=0;i<cap.size();i++)
+        {
+            t=cap[i]-rock[i];
+            v.push_back(t);            
+        }
+        
+        sort(v.begin(), v.end());
+        
+        i=0;
+        while(i<v.size() && add>0)
+        {
+            if(v[i]<=add)
+            {
+                c++;
+                add-=v[i];
+            }
+            i++;
+        }
+        
+        return c;
+    }
+};
