@@ -1,0 +1,72 @@
+/* Following is the Linked list node structure */
+
+/*
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+
+Node* reverse(Node* head)
+{
+    Node* cur=head;
+    Node* prev=NULL;
+    Node* nextptr;
+    
+    while(cur!=NULL)
+    {
+        nextptr=cur->next;
+        cur->next=prev;
+        
+        prev=cur;
+        cur=nextptr;
+    }
+    
+    return prev;
+}
+void reorderList(Node* head) 
+{
+    Node* temp1=head;
+    Node* temp2=head;
+    Node* temp3=head;
+    Node* temp4=head;
+    
+    int n=0;
+    while(temp1!=NULL)
+    {
+        temp1=temp1->next;
+        n++;
+    }
+    
+    temp1=head;
+    n=n/2;
+    
+    while(n>0)
+    {
+        temp1=temp1->next;
+        n--;
+    }
+    
+    temp2=temp1->next;
+    temp1->next=NULL;
+    
+    temp1=head;
+    temp2=reverse(temp2);
+    
+    while(temp2!=NULL)
+    {
+        temp3=temp1->next;
+        temp1->next=temp2;
+        temp2=temp2->next;
+        temp1->next->next=temp3;
+        temp1=temp3;
+    }
+    
+    
+}
