@@ -1,0 +1,31 @@
+APPROACH - I)  GREEDY + DYNAMIC PROGRAMMING(BIDIRECTIONAL)
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+        int i,ans=0,buy,sell,n=prices.size();
+        vector<int> left(n),right(n);
+        
+        buy=prices[0];
+        for(i=1;i<n;i++)
+        {
+            buy=min(buy,prices[i]);
+            left[i]=max(left[i-1], prices[i]-buy);
+        }
+        
+        sell=prices[n-1];
+        for(i=n-2;i>=0;i--)
+        {
+            sell=max(sell,prices[i]);
+            right[i]=max(right[i+1], sell-prices[i]);
+        }
+        
+        for(i=0;i<n;i++)
+            ans=max(ans, left[i]+right[i]);
+        
+        return ans;
+    }
+};
+
+TIME COMPLEXITY = O(N)
