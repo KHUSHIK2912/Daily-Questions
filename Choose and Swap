@@ -1,0 +1,44 @@
+class Solution {
+	public:
+		string LexicographicallyMinimum(string str)
+		{
+		    int i,j,flag=0;
+		    map<char,int> mp;
+		    char ch,c;
+		    for(i=0;i<str.size();i++)
+		    {
+		        ch=str[i];
+		        for(j=i+1;j<str.size();j++)
+		        {
+		            if(mp[str[j]]==0)
+		            {
+		                if(ch>str[j] && str[j]!=str[i])
+		                ch=str[j];
+		            }
+		        }
+		        
+		        if(ch!=str[i])
+		        {
+		            c=str[i];
+		            flag=1;
+		            break;
+		        }
+		        mp[str[i]]++;
+		        
+		    }
+		    if(flag==0)
+		    return str;
+		    
+		    
+		    for(i=0;i<str.size();i++)
+		    {
+		        if(str[i]==ch)
+		        str[i]=c;
+		        else if(str[i]==c)
+		        str[i]=ch;
+		    }
+		    
+		    return str;
+		}
+
+};
