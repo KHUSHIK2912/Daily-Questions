@@ -1,0 +1,81 @@
+APPROACH - I)   RECURSIVE APPROACH
+
+class Solution {
+public:
+    int LIS(vector<vector<int>>& v, int i, int j, int n)
+    {
+        if(j>=n || i>=n)
+            return 0;
+        
+        if(t[i][j]!=-1)
+            return t[i][j];
+        
+        if(v[i][0]<=v[j][0] && v[i][1]<=v[j][1] && v[i][2]<=v[j][2])
+            return max(LIS(v,i,j+1,n), v[j][0]+LIS(v,j,j+1,n));
+        
+        return LIS(v,i,j+1,n);
+    }
+    int maxHeight(vector<vector<int>>& box) 
+    {
+        int i,mx=0,n=box.size(),ans=0;
+        
+        for(i=0;i<box.size();i++)
+            sort(box[i].begin(), box[i].end(), greater<int>());
+        
+        sort(box.begin(), box.end());
+        
+        for(i=0;i<box.size();i++)
+        {
+            ans=box[i][0]+LIS(box,i,i+1,n);
+            mx=max(mx,ans);
+        }
+        mx=max(mx,ans);
+        return mx;
+    }
+};
+
+
+
+
+
+
+
+
+APPROACH - II)   MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int LIS(vector<vector<int>>& v, int i, int j, int n)
+    {
+        if(j>=n || i>=n)
+            return 0;
+        
+        if(t[i][j]!=-1)
+            return t[i][j];
+        
+        if(v[i][0]<=v[j][0] && v[i][1]<=v[j][1] && v[i][2]<=v[j][2])
+            return t[i][j]=max(LIS(v,i,j+1,n), v[j][0]+LIS(v,j,j+1,n));
+        
+        return t[i][j]=LIS(v,i,j+1,n);
+    }
+    int maxHeight(vector<vector<int>>& box) 
+    {
+        int i,mx=0,n=box.size(),ans=0;
+        
+        for(i=0;i<box.size();i++)
+            sort(box[i].begin(), box[i].end(), greater<int>());
+        
+        sort(box.begin(), box.end());
+        
+        t=vector<vector<int>>(n+1, vector<int>(n+1, -1));
+        
+        for(i=0;i<box.size();i++)
+        {
+            ans=box[i][0]+LIS(box,i,i+1,n);
+            mx=max(mx,ans);
+        }
+        mx=max(mx,ans);
+        return mx;
+    }
+};
