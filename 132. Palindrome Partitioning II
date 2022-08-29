@@ -1,0 +1,112 @@
+APPROACH - I)  OPTIMIZED MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    bool ispalin(string &s,int i,int j)
+    {
+        if(i>=j)
+            return true;
+        
+        while(i<=j)
+        {
+            if(s[i]!=s[j])
+                return false;
+            
+            i++;
+            j--;
+        }
+        return true;
+    }
+    int solve(string s, int i, int j)
+    {
+        if(i>=j)
+            return 0;
+        if(ispalin(s,i,j))
+            return t[i][j]=0;
+        
+        if(t[i][j]!=-1)
+            return t[i][j];
+        
+        int k,ans,mn=INT_MAX;
+        for(k=i;k<j;k++)
+        {
+            if(t[i][k]==-1)
+                t[i][k]=solve(s,i,k);
+            if(t[k+1][j]==-1)
+                t[k+1][j]=solve(s,k+1,j);
+            ans=1+t[i][k]+t[k+1][j];
+            mn=min(ans,mn);
+        }
+        return t[i][j]=mn;
+    }
+    int minCut(string s) 
+    {
+        int n=s.size();
+        t=vector<vector<int>>(n+1, vector<int>(n+1,-1));
+        return solve(s,0,n-1);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+APPROACH - II)  SUPER OPTIMIZED MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    bool ispalin(string &s,int i,int j)
+    {
+        if(i>=j)
+            return true;
+        
+        while(i<=j)
+        {
+            if(s[i]!=s[j])
+                return false;
+            
+            i++;
+            j--;
+        }
+        return true;
+    }
+    int solve(string &s, int i, int j)
+    {
+        if(i>=j)
+            return 0;
+        
+        if(t[i][j]!=-1)
+            return t[i][j];
+        
+        if(ispalin(s,i,j))
+            return t[i][j]=0;        
+        
+        
+        int k,ans,mn=INT_MAX;
+        for(k=i;k<j;k++)
+        {
+            if(ispalin(s,i,k))
+            {
+                if(t[k+1][j]==-1)
+                    t[k+1][j]=solve(s,k+1,j);
+                
+                ans=1+t[k+1][j];
+                mn=min(ans,mn);
+            }
+        }
+        return t[i][j]=mn;
+    }
+    int minCut(string s) 
+    {
+        int n=s.size();
+        t=vector<vector<int>>(n+1, vector<int>(n+1,-1));
+        return solve(s,0,n-1);
+    }
+};
