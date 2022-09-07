@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void perm(vector<int>& v, int l, int h)
+    {
+        if(l==h)
+        {
+            ans.push_back(v);
+            return ;
+        }
+        
+        int i,t;
+        
+        for(i=l;i<h;i++)
+        {
+            t=v[i];
+            v[i]=v[l];
+            v[l]=t;
+            
+            perm(v,l+1,h);
+            
+            t=v[i];
+            v[i]=v[l];
+            v[l]=t;
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) 
+    {
+        perm(nums, 0, nums.size());
+        return ans;        
+    }
+};
