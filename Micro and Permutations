@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+map<pair<int,int>, int> mp;
+int c;
+bool solve(vector<int>& v)
+{
+	int i,n=v.size();
+	for(i=0;i<n-1;i++)
+	{
+		if(mp[{v[i],v[i+1]}]==0 && mp[{v[i+1],v[i]}]==0)
+		return false;
+	}
+	return true;
+}
+void perm(vector<int>& v, int l, int h)
+{
+	if(l==h)
+	{
+		if(solve(v))
+		c++;
+		return ;
+	}
+
+	int i,t;
+	for(i=l;i<h;i++)
+	{
+		t=v[i];
+		v[i]=v[l];
+		v[l]=t;
+
+		perm(v,l+1,h);
+
+		t=v[i];
+		v[i]=v[l];
+		v[l]=t;
+	}
+}
+int main() 
+{
+	int n,m,i,u,v;
+	c=0;
+	cin>>n>>m;
+	vector<int> vt;
+
+	for(i=0;i<n;i++)
+	vt.push_back(i+1);
+
+	for(i=0;i<m;i++)
+	{
+		cin>>u>>v;
+		mp[{u,v}]=1;
+	}
+	perm(vt,0,n);
+
+	cout<<c<<endl;
+}
