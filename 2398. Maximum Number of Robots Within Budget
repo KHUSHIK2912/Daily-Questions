@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int maximumRobots(vector<int>& ch, vector<int>& run, long long budget) 
+    {
+        long long i=0,j=0,mx=ch[0],temp,ans=0,k,sum=0,n=ch.size();
+        priority_queue<pair<long long,long long>> pq;
+        
+        while(j<n)
+        {
+            pq.push({ch[j],j});
+            
+            if(pq.size()>0)
+                mx=pq.top().first;
+            else
+                mx=0;
+            
+            sum+=run[j];
+            k=j-i+1;
+            temp=mx+(k*sum);
+            
+            if(temp<=budget)
+            {
+                ans=max(ans,k);
+                j++;
+            }
+            else
+            {
+                while(temp>budget)
+                {
+                    while(!pq.empty() && pq.top().second<=i)
+                        pq.pop();
+                    
+                    if(pq.size()>0)
+                        mx=pq.top().first;
+                    else
+                        mx=0;
+                    
+                    sum-=run[i];
+                    i++;
+                    
+                    k=j-i+1;
+                    temp=mx+(k*sum);
+                }
+                k=j-i+1;
+                ans=max(ans,k);
+                
+                j++;
+            }
+        }
+        
+        return ans;
+        
+    }
+};
