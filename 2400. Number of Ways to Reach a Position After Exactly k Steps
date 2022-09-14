@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(int st, int end, int k)
+    {
+        if(k<0)
+            return 0;
+        if(k<=0 && st!=end)
+            return 0;
+        
+        if(t[st][k]!=-1)
+            return t[st][k];
+        
+        if(k==0 && st==end)
+            return t[st][k]=1;
+        
+        return t[st][k]=(solve(st+1,end,k-1)+solve(st-1,end,k-1))%1000000007;
+    }
+    int numberOfWays(int st, int end, int k) 
+    {
+        t=vector<vector<int>>(10000, vector<int>(k+1,-1));
+         
+        return (solve(st+1000,end+1000,k)%1000000007);
+    }
+};
