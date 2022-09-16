@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<int>& nums, vector<int>& mult, int n, int m, int i, int k)
+    {
+        if(i>=n || k>=m)
+            return 0;
+        
+        if(t[i][k]!=INT_MIN)
+            return t[i][k];
+        
+        return t[i][k]=max((mult[k]*nums[i])+solve(nums, mult, n, m, i+1, k+1),(mult[k]*nums[n-1])+solve(nums, mult, n-1, m, i, k+1));
+    }
+    int maximumScore(vector<int>& nums, vector<int>& mult) 
+    {
+        int n=nums.size(), m=mult.size();
+        
+        t=vector<vector<int>>(m+1, vector<int>(m+1,INT_MIN));
+        return solve(nums, mult, n, m, 0, 0);
+    }
+}; 
