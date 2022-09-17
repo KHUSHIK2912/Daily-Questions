@@ -1,0 +1,37 @@
+class Solution {
+public:
+    unordered_map<string,int> mp,t;
+    
+    int solve(string s)
+    {
+        if(s.size()==0)
+            return 1;
+        
+        if(t[s]!=0)
+            return t[s];
+        
+        int k;
+        string r,st;
+        for(k=0;k<s.size();k++)
+        {
+            r=s.substr(0,k+1);
+            st=s.substr(k+1);
+            if(mp.find(r)!=mp.end() && solve(st)==1)
+                return t[s]=1;
+        }
+        return t[s]=-1;
+    }
+    bool wordBreak(string s, vector<string>& word) 
+    {
+        int i;        
+        
+        for(i=0;i<word.size();i++)
+            mp[word[i]]++;
+        
+        solve(s);
+        
+        if(t[s]==-1)
+            return false;
+        return true;
+    }
+};
