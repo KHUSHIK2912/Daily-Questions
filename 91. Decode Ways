@@ -1,0 +1,63 @@
+APPROACH - I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(string s, int n)
+    {
+        if(n<0)
+            return 0;
+        if(n==0)
+            return 1;
+        
+        int temp=0;
+        
+        if(s[n-1]!='0')
+            temp+=solve(s,n-1);
+        
+        if(n-2>=0 && (s[n-2]=='1' || (s[n-2]=='2' && s[n-1]<='6')))
+            temp+=solve(s,n-2);
+       
+        return temp;
+    }
+    int numDecodings(string s) 
+    {
+        int n=s.size();
+        return solve(s,n);
+    }
+};
+
+
+
+
+
+APPROACH - II)  MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<int> t;
+    int solve(string s, int n)
+    {
+        if(n<0)
+            return 0;
+        if(n==0)
+            return 1;
+        
+        if(t[n]!=-1)
+            return t[n];
+        int temp=0;
+        
+        if(s[n-1]!='0')
+            temp+=solve(s,n-1);
+        
+        if(n-2>=0 && (s[n-2]=='1' || (s[n-2]=='2' && s[n-1]<='6')))
+            temp+=solve(s,n-2);
+       
+        return t[n]=temp;
+    }
+    int numDecodings(string s) 
+    {
+        int n=s.size();
+        t=vector<int>(n+1,-1);
+        return solve(s,n);
+    }
+};
