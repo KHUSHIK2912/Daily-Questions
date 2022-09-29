@@ -1,0 +1,100 @@
+APPROACH - I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& grid, int i, int j, int n, int m)
+    {
+        if(i>=n)
+            return j;
+        
+        if(grid[i][j]==1)
+        {
+            if(j==m-1 || grid[i][j+1]==-1)
+                return -1;
+            
+            return solve(grid,i+1,j+1,n,m);
+        }
+        
+        if(grid[i][j]==-1)
+        {
+            if(j==0 || grid[i][j-1]==1)
+                return -1;
+            
+            return solve(grid,i+1,j-1,n,m);
+        }
+        
+        return -1;
+    }
+    vector<int> findBall(vector<vector<int>>& grid) 
+    {
+        int i,j,n=grid.size(),m=grid[0].size();
+        
+        vector<int> ans(m);
+        
+        for(i=0;i<m;i++)
+        {
+            j=solve(grid,0,i,n,m);
+            ans[i]=j;
+        }
+        
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+APPROACH - II)  MEMOIZATION APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<vector<int>>& grid, int i, int j, int n, int m)
+    {
+        if(i>=n)
+            return j;
+        
+        if(t[i][j]!=-10)
+            return t[i][j];
+        
+        if(grid[i][j]==1)
+        {
+            if(j==m-1 || grid[i][j+1]==-1)
+                return t[i][j]=-1;
+            
+            return t[i][j]=solve(grid,i+1,j+1,n,m);
+        }
+        
+        if(grid[i][j]==-1)
+        {
+            if(j==0 || grid[i][j-1]==1)
+                return t[i][j]=-1;
+            
+            return t[i][j]=solve(grid,i+1,j-1,n,m);
+        }
+        
+        return t[i][j]=-1;
+    }
+    vector<int> findBall(vector<vector<int>>& grid) 
+    {
+        int i,j,n=grid.size(),m=grid[0].size();
+        
+        vector<int> ans(m);
+        t=vector<vector<int>>(n+1, vector<int>(m+1,-10));
+        
+        for(i=0;i<m;i++)
+        {
+            j=solve(grid,0,i,n,m);
+            ans[i]=j;
+        }
+        
+        return ans;
+    }
+};
