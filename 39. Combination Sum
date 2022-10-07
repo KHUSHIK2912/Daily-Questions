@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> v;
+    vector<vector<int>> ans;
+    void dfs(vector<int>& can, int i, int n, int& sum)
+    {
+        if(i>=n || sum<0)
+            return ;        
+        
+        if(sum==0)
+        {
+            ans.push_back(v);
+            return ;
+        }
+        
+        sum-=can[i];
+        v.push_back(can[i]);
+        
+        dfs(can, i, n, sum);
+        
+        sum+=can[i];
+        v.pop_back();
+        
+        dfs(can, i+1, n, sum);
+    }
+    vector<vector<int>> combinationSum(vector<int>& can, int target) 
+    {
+        int n=can.size();
+        dfs(can, 0, n, target);
+        return ans;
+    }
+};
