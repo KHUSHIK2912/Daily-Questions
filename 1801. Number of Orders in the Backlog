@@ -1,0 +1,82 @@
+class Solution {
+public:
+    int getNumberOfBacklogOrders(vector<vector<int>>& orders) 
+    {
+        int i,k,t,m,n,mn;
+        long long int sum=0;
+        
+        priority_queue<pair<int,int>> buy;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>sell;
+        
+        for(i=0;i<orders.size();i++)
+        {
+            t=orders[i][0];
+            k=orders[i][1];
+            
+            if(orders[i][2]==0)
+            {
+                while(!sell.empty())
+                {
+                    m=sell.top().first;
+                    n=sell.top().second;
+                    
+                    if(m<=t)
+                    {
+                        sell.pop();
+                        mn=min(n,k);
+                        n-=mn;
+                        k-=mn;
+                        if(n>0)
+                            sell.push({m,n});
+                    }
+                    else
+                        break;
+                    
+                    if(k<=0)
+                        break;
+                }
+                if(k>0)
+                    buy.push({t,k});
+            }
+            else
+            {
+                while(!buy.empty())
+                {
+                    m=buy.top().first;
+                    n=buy.top().second;
+                    
+                    if(m>=t)
+                    {
+                        buy.pop();
+                        mn=min(n,k);
+                        n-=mn;
+                        k-=mn;
+                        if(n>0)
+                            buy.push({m,n});
+                    }
+                    else
+                        break;
+                    
+                    if(k<=0)
+                        break;
+                }
+                if(k>0)
+                    sell.push({t,k});
+            }
+        }
+        while(!buy.empty())
+        {
+            sum+=buy.top().second;
+            buy.pop();
+        }
+        
+        while(!sell.empty())
+        {
+            sum+=sell.top().second;
+            sell.pop();
+        }
+        
+        return sum%1000000007;
+        
+    }
+};
