@@ -1,0 +1,29 @@
+class Solution {
+public:
+    long long taskSchedulerII(vector<int>& tasks, int k) 
+    {
+        long long i,c=0;
+        unordered_map<int,long long> mp;
+        queue<int> q;
+        
+        for(i=0;i<tasks.size();i++)
+        {
+            q.push(tasks[i]);
+            mp[tasks[i]]=0;
+        }
+        while(!q.empty())
+        {
+            i=q.front();
+            c++;
+            if(mp[i]<=c || mp[i]==0)
+            {
+                mp[i]=c+k+1;
+                q.pop();
+            }
+            else
+                c+=(mp[i]-c-1);
+        }
+        
+        return c;
+    }
+};
