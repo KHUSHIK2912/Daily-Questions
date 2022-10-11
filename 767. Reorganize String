@@ -1,0 +1,57 @@
+class Solution {
+public:
+    string reorganizeString(string s) 
+    {
+        int i,j,t,n=s.size();
+        char ch;
+        
+        unordered_map<char,int> mp;
+        priority_queue<pair<int,char>> pq;
+        queue<pair<int,char>> q;
+        
+        for(i=0;i<s.size();i++)
+            mp[s[i]]++;
+        for(auto it: mp)
+            pq.push({it.second,it.first});
+        
+        s="";
+        ch=pq.top().second;
+        pq.pop();
+        
+        s+=ch;
+        mp[ch]--;
+        if(mp[ch]>0)
+            q.push({mp[ch],ch});
+        
+        while(s.size()<n)
+        {
+            if(!pq.empty())
+            {
+                t=pq.top().first;
+                ch=pq.top().second;
+                pq.pop();
+                j=s.size();
+                
+                if(ch==s[j-1])
+                    q.push({t,ch});
+                else
+                {
+                    s+=ch;
+                    t--;
+                    if(t>0)
+                        q.push({t,ch});
+                }
+            }
+            j=s.size();
+            if(!q.empty() && s[j-1]!=q.front().second)
+            {
+                pq.push(q.front());
+                q.pop();
+            }
+            else if(pq.empty() && !q.empty())
+                return "";
+        }
+        
+        return s;
+    }
+};
