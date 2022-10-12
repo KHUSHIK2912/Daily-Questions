@@ -1,0 +1,51 @@
+APPROACH - I)  RECURSIVE APPROACH
+
+class Solution {
+public:
+    int solve(vector<int>& sat, int n, int i, int time)
+    {
+        if(i>=n)
+            return 0;
+        
+        return max((time*sat[i])+solve(sat,n,i+1,time+1), solve(sat,n,i+1,time));
+    }
+    int maxSatisfaction(vector<int>& sat) 
+    {
+        int n=sat.size();
+        
+        sort(sat.begin(), sat.end());
+        
+        return solve(sat, n, 0, 1);
+    }
+};
+
+
+
+
+
+
+APPRAOCH - II) MEMOIZED APPROACH
+
+class Solution {
+public:
+    vector<vector<int>> t;
+    int solve(vector<int>& sat, int n, int i, int time)
+    {
+        if(i>=n)
+            return 0;
+        
+        if(t[i][time]!=-1)
+            return t[i][time];
+        
+        return t[i][time]=max((time*sat[i])+solve(sat,n,i+1,time+1), solve(sat,n,i+1,time));
+    }
+    int maxSatisfaction(vector<int>& sat) 
+    {
+        int n=sat.size();
+        
+        sort(sat.begin(), sat.end());
+        t=vector<vector<int>>(n+1, vector<int>(n+1,-1));
+        
+        return solve(sat, n, 0, 1);
+    }
+};
