@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<bool> solve(vector<int>& v, int n, int sum)
+    {
+        int i,j;
+        vector<vector<bool>> t(n+1, vector<bool>(sum+1));
+        
+        for(i=0;i<n+1;i++)
+        {
+            for(j=0;j<sum+1;j++)
+            {
+                if(i==0)
+                    t[i][j]=false;
+                if(j==0)
+                    t[i][j]=true;
+            }
+        }
+        
+        for(i=1;i<n+1;i++)
+        {
+            for(j=1;j<sum+1;j++)
+            {
+                if(j>=v[i-1])
+                    t[i][j]=(t[i-1][j-v[i-1]] || t[i-1][j]);
+                else
+                    t[i][j]=t[i-1][j];
+            }
+        }
+        
+        return t[n];
+    }
+    int lastStoneWeightII(vector<int>& stones) 
+    {
+        int n=stones.size(),i,sum=0,t,mn=INT_MAX;
+        for(i=0;i<n;i++)
+            sum+=stones[i];
+        
+        vector<bool> v=solve(stones,n,sum);
+        for(i=0;i<v.size();i++)
+        {
+            if(v[i]==true)
+            {
+                t=sum-i;
+                mn=min(mn,abs(i-t));
+            }
+        }
+        
+        return mn;
+    }
+};
