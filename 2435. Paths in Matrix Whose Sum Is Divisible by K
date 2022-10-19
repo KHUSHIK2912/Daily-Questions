@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<vector<int>>> t;
+    int solve(vector<vector<int>>& v, int n, int m, int k, int i, int j, int sum)
+    {
+        if(i<0 || j<0 || i>=n || j>=m)
+            return 0;
+     
+        sum+=v[i][j];
+        sum%=k;
+        
+        if(i==n-1 && j==m-1 && sum%k==0)
+            return 1;
+        
+        if(t[i][j][sum]!=-1)
+            return t[i][j][sum];
+        
+        return t[i][j][sum]=(solve(v, n, m, k, i+1, j, sum)+solve(v, n, m, k, i, j+1, sum))%1000000007;
+    }
+    int numberOfPaths(vector<vector<int>>& grid, int k) 
+    {
+        int n=grid.size(), m=grid[0].size();
+        t=vector<vector<vector<int>>> (n+1, vector<vector<int>>(m+1, vector<int>(k+1, -1)));
+        return solve(grid, n, m, k, 0, 0, 0);
+    }
+};
