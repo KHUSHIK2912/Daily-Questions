@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& pts) 
+    {
+        int i,j,mx,ans=1;
+        double t;
+        
+        for(i=0;i<pts.size();i++)
+        {
+            unordered_map<double,int> mp;
+            for(j=i+1;j<pts.size();j++)
+            {
+                if((pts[j][0]-pts[i][0])==0)
+                    t=INT_MAX;
+                else
+                    t=((pts[j][1]-pts[i][1])/(double)(pts[j][0]-pts[i][0]));
+                
+                mp[t]++;
+            }
+            mx=0;
+            for(auto it: mp)
+                mx=max(mx, it.second+1);
+            
+            ans=max(ans, mx);
+        }
+        return ans;
+    }
+};
