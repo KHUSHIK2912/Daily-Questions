@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) 
+    {
+        int i,j,n=nums.size(),ans=0,mx=0;
+        int t[n],count[n];
+        
+        for(i=0;i<n;i++)
+        {
+            t[i]=1;
+            count[i]=1;
+        }
+        
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<i;j++)
+            {
+                if(nums[i]>nums[j])
+                {
+                    if(t[i]<1+t[j])
+                    {
+                        t[i]=1+t[j];
+                        count[i]=count[j];
+                    }
+                    else if(t[i]==1+t[j])
+                        count[i]+=count[j];
+                }
+            }
+        }
+        for(i=0;i<n;i++)
+            mx=max(mx,t[i]);
+        
+        for(i=0;i<n;i++)
+        {
+            if(t[i]==mx)
+                ans+=count[i];
+        }
+        return ans;
+    }
+};
