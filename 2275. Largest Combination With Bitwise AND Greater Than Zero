@@ -1,0 +1,67 @@
+APPROACH - I)  MEMOIZATION APPROACH   (NOT OPTIMIZED)
+
+class Solution {
+public:
+    map<pair<int,long long>, int> mp;
+    int solve(vector<int>& v, int n, long long sum)
+    {
+        if(n<=0)
+            return 0;
+        
+        if(mp.find({n,sum})!=mp.end())
+            return mp[{n,sum}];
+        
+        if((sum & v[n-1])==0)
+            return mp[{n,sum}]=solve(v,n-1,sum);
+        
+        return mp[{n,sum}]=max(1+solve(v,n-1,sum & v[n-1]), solve(v,n-1,sum));
+    }
+    int largestCombination(vector<int>& can) 
+    {
+        long long i,sum=0,n=can.size(),c=0;
+        int mx=0;
+        for(i=0;i<can.size();i++)
+            mx=max(mx,can[i]);
+        while(mx>0)
+        {
+            c++;
+            mx/=2;
+        }
+        for(i=0;i<c;i++)
+            sum+=pow(2,i);
+        return solve(can, n, sum);
+    }
+};
+
+
+
+
+
+
+
+APPROACH - II)  BIT MANIPULATION APPRAOCH
+
+class Solution {
+public:
+    int getbit(int n, int pos)
+    {
+        return ((n & (1 << pos))!=0);
+    }
+    int largestCombination(vector<int>& can) 
+    {
+        int i,j,mx=0,n=can.size();
+        vector<int> v(32,0);
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<32;j++)
+            {
+                if(getbit(can[i], j)==1)
+                    v[j]++;
+            }
+        }
+        
+        for(i=0;i<32;i++)
+            mx=max(mx, v[i]);
+        return mx;
+    }
+};
